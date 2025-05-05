@@ -148,7 +148,7 @@ export function HeatmapVisualization() {
           </div>
         </CardHeader>
         <CardContent>
-          <ScrollArea className={isMobile ? "h-80" : "h-[500px]"} orientation="horizontal">
+          <ScrollArea className={isMobile ? "h-80" : "h-[500px]"}>
             <div className="flex flex-col">
               {/* Row labels */}
               <div className="flex">
