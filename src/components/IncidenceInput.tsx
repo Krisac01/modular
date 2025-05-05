@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { useData } from "@/context/DataContext";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,7 +11,7 @@ import { cn } from "@/lib/utils";
 
 export function IncidenceInput() {
   const { selectedRow, addIncidenceRecord } = useData();
-  const [position, setPosition] = useState("");
+  const [position, setPosition] = useState<number>(1);
   const [level, setLevel] = useState(0);
   const [notes, setNotes] = useState("");
 
@@ -24,21 +23,16 @@ export function IncidenceInput() {
       return;
     }
 
-    const positionNum = parseInt(position, 10);
-    if (isNaN(positionNum) || positionNum < 1 || positionNum > 100) {
-      toast.error("Por favor ingrese una posición válida (1-100)");
-      return;
-    }
-
     addIncidenceRecord({
       rowId: selectedRow.id,
-      position: positionNum,
+      position,
       level,
       notes,
+      subsection: position, // Use position as subsection since they're both 1-10 now
     });
 
     // Reset form
-    setPosition("");
+    setPosition(1);
     setLevel(0);
     setNotes("");
   };
@@ -68,19 +62,28 @@ export function IncidenceInput() {
         {selectedRow ? (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="position">
-                Posición en el Surco {selectedRow.name} (1-100)
-              </Label>
-              <Input
+              <div className="flex justify-between items-center">
+                <Label htmlFor="position">
+                  Posición en el Surco {selectedRow.name} (1-10)
+                </Label>
+                <span className="font-medium">
+                  {position}
+                </span>
+              </div>
+              <Slider
                 id="position"
-                type="number"
-                min="1"
-                max="100"
-                placeholder="Posición (1-100)"
-                value={position}
-                onChange={(e) => setPosition(e.target.value)}
-                required
+                min={1}
+                max={10}
+                step={1}
+                value={[position]}
+                onValueChange={(values) => setPosition(values[0])}
+                className="py-4"
               />
+              <div className="grid grid-cols-10 text-xs text-gray-500">
+                {Array.from({ length: 10 }, (_, i) => (
+                  <div key={i} className="text-center">{i + 1}</div>
+                ))}
+              </div>
             </div>
 
             <div className="space-y-2">
