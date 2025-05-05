@@ -34,14 +34,14 @@ function HeatmapCell({ rowIndex, position, level, onCellClick, isMobile }: Heatm
             className={cn(
               getCellColor(level),
               "cursor-pointer",
-              isMobile ? "w-2 h-4" : "w-5 h-8",
+              isMobile ? "w-6 h-6" : "w-12 h-12",
               "transition-colors hover:opacity-80"
             )}
           ></div>
         </TooltipTrigger>
         <TooltipContent>
           <p>
-            Surco {rowIndex + 1}, Pos {position + 1}:{" "}
+            Surco {rowIndex + 1}, Subsección {position + 1}:{" "}
             {level !== null ? `Nivel ${level}` : "Sin datos"}
           </p>
         </TooltipContent>
@@ -54,20 +54,26 @@ export function HeatmapVisualization() {
   const { data, selectRow } = useData();
   const isMobile = useIsMobile();
 
-  // Generate heatmap data
+  // Generate heatmap data - now with exactly 10 positions per row
   const generateHeatmapData = (rows: Row[]) => {
     return rows.map((row) => {
-      const rowData = new Array(100).fill(null);
+      const rowData = new Array(10).fill(null);
+      
+      // Group records by subsection (1-10)
       row.records.forEach((record) => {
-        rowData[record.position - 1] = record.level;
+        if (record.subsection >= 1 && record.subsection <= 10) {
+          // Use subsection as the index (0-9 after adjustment)
+          rowData[record.subsection - 1] = record.level;
+        }
       });
+      
       return rowData;
     });
   };
 
   const heatmapData = generateHeatmapData(data.rows);
 
-  const handleCellClick = (rowId: number, position: number) => {
+  const handleCellClick = (rowId: number, subsection: number) => {
     selectRow(rowId);
   };
 
@@ -83,7 +89,7 @@ export function HeatmapVisualization() {
     
     const avg = allLevels.reduce((sum, level) => sum + level, 0) / totalRecords;
     const max = Math.max(...allLevels);
-    const totalPossible = data.rows.length * 100;
+    const totalPossible = data.rows.length * 10; // Now only 10 positions per row
     const coverage = (totalRecords / totalPossible) * 100;
     
     return { avg, max, coverage };
@@ -155,8 +161,8 @@ export function HeatmapVisualization() {
                 <div className={cn("flex-shrink-0", isMobile ? "w-12" : "w-16")}></div>
                 <div className="flex">
                   {Array.from({ length: 10 }, (_, i) => (
-                    <div key={i} className={cn("font-semibold text-center", isMobile ? "w-20" : "w-50")}>
-                      {i * 10 + 1}-{(i + 1) * 10}
+                    <div key={i} className={cn("font-semibold text-center", isMobile ? "w-6" : "w-12")}>
+                      {i + 1}
                     </div>
                   ))}
                 </div>

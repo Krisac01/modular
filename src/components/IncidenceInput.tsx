@@ -28,7 +28,7 @@ export function IncidenceInput() {
       position,
       level,
       notes,
-      subsection: position, // Use position as subsection since they're both 1-10 now
+      subsection: position, // Position 1-10 directly maps to subsection 1-10
     });
 
     // Reset form

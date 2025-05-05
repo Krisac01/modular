@@ -18,12 +18,9 @@ export function SubsectionTable() {
       
       // Initialize 10 subsections for each row
       for (let subsection = 1; subsection <= 10; subsection++) {
-        // Find records in this subsection (positions (subsection-1)*10+1 to subsection*10)
-        const startPosition = (subsection - 1) * 10 + 1;
-        const endPosition = subsection * 10;
-        
+        // Find records in this subsection
         const subsectionRecords = row.records.filter(
-          record => record.position >= startPosition && record.position <= endPosition
+          record => record.subsection === subsection
         );
         
         // Calculate average level if records exist
