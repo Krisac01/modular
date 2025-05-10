@@ -80,7 +80,7 @@ export function SubsectionTable() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {Array.from({ length: data.rows.length }, (_, rowIndex) => {
+              {Array.from({ length: filteredData.rows.length }, (_, rowIndex) => {
                 const rowId = rowIndex + 1;
                 
                 return (
