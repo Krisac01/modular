@@ -8,9 +8,10 @@ interface LayoutProps {
   children: ReactNode;
   className?: string;
   hideHeader?: boolean;
+  title?: string;
 }
 
-export function Layout({ children, className, hideHeader = false }: LayoutProps) {
+export function Layout({ children, className, hideHeader = false, title }: LayoutProps) {
   const isMobile = useIsMobile();
   
   return (
@@ -23,6 +24,9 @@ export function Layout({ children, className, hideHeader = false }: LayoutProps)
           className
         )}
       >
+        {title && (
+          <h1 className="text-2xl md:text-3xl font-bold text-green-dark mb-6">{title}</h1>
+        )}
         {children}
       </main>
     </div>

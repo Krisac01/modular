@@ -2,6 +2,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Home } from "lucide-react";
 
 export function Header() {
   const { pathname } = useLocation();
@@ -15,6 +16,18 @@ export function Header() {
         </h1>
         <nav>
           <ul className="flex space-x-6 text-sm md:text-base">
+            <li>
+              <Link
+                to="/menu"
+                className={cn(
+                  "py-2 px-1 border-b-2 flex items-center gap-1",
+                  pathname === "/menu" ? "border-white" : "border-transparent"
+                )}
+              >
+                <Home className="h-4 w-4" />
+                {isMobile ? "Menu" : "Menú Principal"}
+              </Link>
+            </li>
             <li>
               <Link
                 to="/"
