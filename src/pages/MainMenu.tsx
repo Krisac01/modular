@@ -29,12 +29,6 @@ const MainMenu = () => {
       icon: <Wrench className="h-8 w-8" />,
       path: "/tools",
       description: "Registro de herramientas adquiridas o utilizadas"
-    },
-    {
-      title: "Bitácora electrónica/Registro de actividad",
-      icon: <BookOpen className="h-8 w-8" />,
-      path: "/logbook",
-      description: "Registro de actividades, incluyendo control de plagas"
     }
   ];
 
@@ -60,19 +54,49 @@ const MainMenu = () => {
             </Link>
           ))}
 
-          {/* Special card for Control de Plagas - Invernadero */}
-          <Link to="/" className="block">
+          {/* Bitácora electrónica card with expanded content */}
+          <Link to="/logbook" className="block col-span-1 md:col-span-2 lg:col-span-3">
             <Card className="h-full bg-green-50 transition-all duration-200 hover:shadow-lg hover:scale-105 border-2 border-green-100">
               <CardContent className="pt-6 flex flex-col items-center text-center">
                 <div className="rounded-full bg-green-100 p-3 mb-4 text-green-dark">
                   <BookOpen className="h-8 w-8" />
                 </div>
                 <h2 className="font-semibold text-lg mb-2">
-                  Control de Plagas - Invernadero
+                  Bitácora electrónica/Registro de actividad
                 </h2>
-                <p className="text-sm text-gray-600">
-                  Registro y seguimiento de incidencia de plagas
+                <p className="text-sm text-gray-600 mb-4">
+                  Registro de actividades, incluyendo control de plagas
                 </p>
+
+                {/* Sub-options container */}
+                <div className="w-full max-w-xl mt-2 grid md:grid-cols-2 gap-4">
+                  <Link to="/" className="block">
+                    <Card className="h-full bg-white transition-all duration-200 hover:shadow-md hover:scale-102">
+                      <CardContent className="pt-4 pb-4 flex flex-col items-center text-center">
+                        <h3 className="font-medium text-md mb-1">
+                          Control de Plagas - Invernadero
+                        </h3>
+                        <p className="text-xs text-gray-600">
+                          Registro y seguimiento de incidencia de plagas
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                  
+                  {/* Placeholder for future log entries or activity types */}
+                  <Link to="/logbook" className="block">
+                    <Card className="h-full bg-white border-dashed border-2 transition-all duration-200 hover:shadow-md hover:scale-102">
+                      <CardContent className="pt-4 pb-4 flex flex-col items-center text-center">
+                        <h3 className="font-medium text-md mb-1 text-gray-500">
+                          Otros registros de actividad
+                        </h3>
+                        <p className="text-xs text-gray-400">
+                          Otros tipos de registros y bitácoras
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </div>
               </CardContent>
             </Card>
           </Link>
