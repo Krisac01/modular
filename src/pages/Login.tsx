@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/componen
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { LogIn, Google } from "lucide-react";
+import { LogIn, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
@@ -126,7 +126,7 @@ const Login = () => {
               onClick={handleGoogleLogin}
               disabled={isLoading}
             >
-              <Google className="mr-2 h-4 w-4" />
+              <Mail className="mr-2 h-4 w-4" />
               Google
             </Button>
           </CardContent>
