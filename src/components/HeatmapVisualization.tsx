@@ -51,7 +51,8 @@ function HeatmapCell({ rowIndex, position, level, onCellClick, isMobile }: Heatm
 }
 
 export function HeatmapVisualization() {
-  const { data, selectRow } = useData();
+  const { getFilteredDataByDate, selectRow, selectedDate } = useData();
+  const filteredData = getFilteredDataByDate();
   const isMobile = useIsMobile();
 
   // Generate heatmap data - now with exactly 10 positions per row
@@ -71,7 +72,7 @@ export function HeatmapVisualization() {
     });
   };
 
-  const heatmapData = generateHeatmapData(data.rows);
+  const heatmapData = generateHeatmapData(filteredData.rows);
 
   const handleCellClick = (rowId: number, subsection: number) => {
     selectRow(rowId);
@@ -79,7 +80,7 @@ export function HeatmapVisualization() {
 
   // Calculate summary statistics
   const calculateStats = () => {
-    const allLevels = data.rows.flatMap(row => 
+    const allLevels = filteredData.rows.flatMap(row => 
       row.records.map(record => record.level)
     );
     
@@ -89,7 +90,7 @@ export function HeatmapVisualization() {
     
     const avg = allLevels.reduce((sum, level) => sum + level, 0) / totalRecords;
     const max = Math.max(...allLevels);
-    const totalPossible = data.rows.length * 10; // Now only 10 positions per row
+    const totalPossible = filteredData.rows.length * 10; // Now only 10 positions per row
     const coverage = (totalRecords / totalPossible) * 100;
     
     return { avg, max, coverage };
@@ -143,7 +144,10 @@ export function HeatmapVisualization() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Mapa de Calor - Incidencia de Plagas</CardTitle>
+          <CardTitle>
+            Mapa de Calor - Incidencia de Plagas
+            {selectedDate && ` (${new Date(selectedDate).toLocaleDateString()})`}
+          </CardTitle>
           <div className="flex flex-wrap items-center gap-4 mt-2">
             {legendItems.map((item) => (
               <div key={item.label} className="flex items-center gap-2">

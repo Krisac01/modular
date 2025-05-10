@@ -6,10 +6,14 @@ import { toast } from "@/components/ui/sonner";
 interface DataContextType {
   data: GreenHouseData;
   selectedRow: Row | null;
+  selectedDate: Date | undefined;
+  setSelectedDate: (date: Date | undefined) => void;
   selectRow: (rowId: number) => void;
   addIncidenceRecord: (record: Omit<IncidenceRecord, "id" | "timestamp">) => void;
   updateIncidenceRecord: (recordId: string, level: number, notes?: string) => void;
   deleteIncidenceRecord: (recordId: string) => void;
+  getFilteredDataByDate: () => GreenHouseData;
+  exportToCSV: () => void;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -33,6 +37,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
     return saved ? JSON.parse(saved) : initialData;
   });
   const [selectedRow, setSelectedRow] = useState<Row | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
 
   // Save to localStorage whenever data changes
   useEffect(() => {
@@ -46,6 +51,74 @@ export function DataProvider({ children }: { children: ReactNode }) {
       setSelectedRow(row);
     } else {
       toast.error("Surco no encontrado");
+    }
+  };
+
+  // Filter data by selected date (if any)
+  const getFilteredDataByDate = () => {
+    if (!selectedDate) return data;
+    
+    const startOfDay = new Date(selectedDate);
+    startOfDay.setHours(0, 0, 0, 0);
+    
+    const endOfDay = new Date(selectedDate);
+    endOfDay.setHours(23, 59, 59, 999);
+    
+    const filteredRows = data.rows.map(row => {
+      const filteredRecords = row.records.filter(record => {
+        const recordDate = new Date(record.timestamp);
+        return recordDate >= startOfDay && recordDate <= endOfDay;
+      });
+      
+      return {
+        ...row,
+        records: filteredRecords,
+      };
+    });
+    
+    return {
+      rows: filteredRows,
+      lastUpdated: data.lastUpdated,
+    };
+  };
+
+  // Export data as CSV
+  const exportToCSV = () => {
+    try {
+      const filteredData = getFilteredDataByDate();
+      let csvContent = "Surco,Subsección,Nivel de Incidencia,Notas,Fecha\n";
+      
+      filteredData.rows.forEach(row => {
+        row.records.forEach(record => {
+          const date = new Date(record.timestamp);
+          const dateStr = date.toLocaleDateString();
+          const timeStr = date.toLocaleTimeString();
+          
+          // Format CSV row and handle potential commas in notes
+          const notes = record.notes ? `"${record.notes.replace(/"/g, '""')}"` : "";
+          csvContent += `${row.id},${record.subsection},${record.level},${notes},${dateStr} ${timeStr}\n`;
+        });
+      });
+      
+      // Create download link
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      
+      // Set file name with date
+      const fileName = selectedDate 
+        ? `incidencia-plagas-${selectedDate.toISOString().split('T')[0]}.csv` 
+        : `incidencia-plagas-completo.csv`;
+      
+      link.href = url;
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      toast.success("Datos exportados correctamente");
+    } catch (error) {
+      console.error("Error exporting to CSV:", error);
+      toast.error("Error al exportar los datos");
     }
   };
 
@@ -156,10 +229,14 @@ export function DataProvider({ children }: { children: ReactNode }) {
       value={{
         data,
         selectedRow,
+        selectedDate,
+        setSelectedDate,
         selectRow,
         addIncidenceRecord,
         updateIncidenceRecord,
         deleteIncidenceRecord,
+        getFilteredDataByDate,
+        exportToCSV,
       }}
     >
       {children}

@@ -6,14 +6,15 @@ import { cn } from "@/lib/utils";
 import { Grid2X2 } from "lucide-react";
 
 export function SubsectionTable() {
-  const { data } = useData();
+  const { getFilteredDataByDate, selectedDate } = useData();
+  const filteredData = getFilteredDataByDate();
   
   // Generate subsection data from records
   const generateSubsectionData = () => {
     const subsectionData = [];
     
-    for (let rowId = 1; rowId <= data.rows.length; rowId++) {
-      const row = data.rows.find(r => r.id === rowId);
+    for (let rowId = 1; rowId <= filteredData.rows.length; rowId++) {
+      const row = filteredData.rows.find(r => r.id === rowId);
       if (!row) continue;
       
       // Initialize 10 subsections for each row
@@ -58,6 +59,7 @@ export function SubsectionTable() {
           <CardTitle className="flex items-center gap-2">
             <Grid2X2 className="h-5 w-5" />
             Tabla de Subsecciones por Surco
+            {selectedDate && ` (${new Date(selectedDate).toLocaleDateString()})`}
           </CardTitle>
           <p className="text-sm text-muted-foreground mt-1">
             Visualización por 10 subsecciones para cada surco (cada subsección representa el 10% del área)
