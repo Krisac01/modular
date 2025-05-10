@@ -94,6 +94,11 @@ const App = () => {
                 <MainMenu />
               </ProtectedRoute>
             } />
+            <Route path="/ai-alerts" element={
+              <ProtectedRoute>
+                <MainMenu />
+              </ProtectedRoute>
+            } />
             
             {/* Ruta para 404 */}
             <Route path="*" element={<NotFound />} />

@@ -2,7 +2,7 @@
 import { Layout } from "@/components/Layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { MapPin, LayoutGrid, Package, Wrench, BookOpen } from "lucide-react";
+import { MapPin, LayoutGrid, Package, Wrench, BookOpen, Lightbulb } from "lucide-react";
 
 const MainMenu = () => {
   const menuItems = [
@@ -29,6 +29,12 @@ const MainMenu = () => {
       icon: <Wrench className="h-8 w-8" />,
       path: "/tools",
       description: "Registro de herramientas adquiridas o utilizadas"
+    },
+    {
+      title: "Alertas y Recomendaciones AI",
+      icon: <Lightbulb className="h-8 w-8" />,
+      path: "/ai-alerts",
+      description: "Análisis inteligente de datos con AI"
     }
   ];
 
