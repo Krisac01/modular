@@ -1,4 +1,3 @@
-
 import { Layout } from "@/components/Layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
@@ -41,9 +40,16 @@ const MainMenu = () => {
   return (
     <Layout hideHeader>
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-green-dark text-center mb-8">
-          Menú Principal
-        </h1>
+        <div className="flex flex-col items-center mb-8">
+          <img 
+            src="/lovable-uploads/1b34c799-c8d6-481c-a574-7fcafc61c176.png" 
+            alt="Modular Agrosolutions" 
+            className="h-16 w-16 mb-4"
+          />
+          <h1 className="text-3xl font-bold text-green-dark text-center">
+            Menú Principal
+          </h1>
+        </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {menuItems.map((item) => (

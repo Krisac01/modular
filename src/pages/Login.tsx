@@ -71,8 +71,15 @@ const Login = () => {
     <Layout hideHeader className="bg-gradient-to-r from-green-100 to-green-50">
       <div className="min-h-screen flex items-center justify-center p-4">
         <Card className="w-full max-w-md shadow-xl">
-          <CardHeader className="space-y-1 text-center">
-            <CardTitle className="text-3xl font-bold text-green-dark">Acceso a la aplicación de captura de datos</CardTitle>
+          <CardHeader className="space-y-4 text-center">
+            <div className="flex justify-center">
+              <img 
+                src="/lovable-uploads/1b34c799-c8d6-481c-a574-7fcafc61c176.png" 
+                alt="Modular Agrosolutions" 
+                className="h-16 w-16"
+              />
+            </div>
+            <CardTitle className="text-2xl font-bold text-green-dark">Acceso a la aplicación de captura de datos</CardTitle>
             <p className="text-sm text-gray-500">Ingrese sus credenciales para acceder al sistema</p>
           </CardHeader>
           <CardContent>
