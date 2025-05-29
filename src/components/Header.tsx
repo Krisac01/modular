@@ -40,7 +40,7 @@ export function Header() {
           <img 
             src="/lovable-uploads/1b34c799-c8d6-481c-a574-7fcafc61c176.png" 
             alt="Modular Agrosolutions" 
-            className="h-10 w-10 md:h-13 md:w-13"
+            className="h-9 w-9 md:h-12 md:w-12"
           />
           <h1 className="font-semibold text-lg md:text-xl">
             Control de Plagas - Invernadero
