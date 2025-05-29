@@ -44,7 +44,7 @@ const MainMenu = () => {
           <img 
             src="/lovable-uploads/1b34c799-c8d6-481c-a574-7fcafc61c176.png" 
             alt="Modular Agrosolutions" 
-            className="h-16 w-16 mb-4"
+            className="h-21 w-21 mb-4"
           />
           <h1 className="text-3xl font-bold text-green-dark text-center">
             Menú Principal
