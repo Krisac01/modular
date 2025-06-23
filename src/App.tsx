@@ -94,6 +94,11 @@ const App = () => {
                 <MainMenu />
               </ProtectedRoute>
             } />
+            <Route path="/cacao-pathogens" element={
+              <ProtectedRoute>
+                <MainMenu />
+              </ProtectedRoute>
+            } />
             <Route path="/ai-alerts" element={
               <ProtectedRoute>
                 <MainMenu />

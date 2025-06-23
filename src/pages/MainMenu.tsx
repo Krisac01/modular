@@ -2,7 +2,7 @@
 import { Layout } from "@/components/Layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { MapPin, LayoutGrid, Package, Wrench, BookOpen, Lightbulb } from "lucide-react";
+import { MapPin, LayoutGrid, Package, Wrench, BookOpen, Lightbulb, Bug } from "lucide-react";
 
 const MainMenu = () => {
   const menuItems = [
@@ -78,11 +78,11 @@ const MainMenu = () => {
                   Bitácora electrónica/Registro de actividad
                 </h2>
                 <p className="text-sm text-gray-600 mb-4">
-                  Registro de actividades, incluyendo control de plagas
+                  Registro de actividades, incluyendo control de plagas y patógenos
                 </p>
 
                 {/* Sub-options container */}
-                <div className="w-full max-w-xl mt-2 grid md:grid-cols-2 gap-4">
+                <div className="w-full max-w-2xl mt-2 grid md:grid-cols-2 gap-4">
                   <Link to="/" className="block">
                     <Card className="h-full bg-white transition-all duration-200 hover:shadow-md hover:scale-102">
                       <CardContent className="pt-4 pb-4 flex flex-col items-center text-center">
@@ -96,15 +96,17 @@ const MainMenu = () => {
                     </Card>
                   </Link>
                   
-                  {/* Placeholder for future log entries or activity types */}
-                  <Link to="/logbook" className="block">
-                    <Card className="h-full bg-white border-dashed border-2 transition-all duration-200 hover:shadow-md hover:scale-102">
+                  <Link to="/cacao-pathogens" className="block">
+                    <Card className="h-full bg-white transition-all duration-200 hover:shadow-md hover:scale-102">
                       <CardContent className="pt-4 pb-4 flex flex-col items-center text-center">
-                        <h3 className="font-medium text-md mb-1 text-gray-500">
-                          Otros registros de actividad
+                        <div className="rounded-full bg-orange-50 p-2 mb-2 text-orange-600">
+                          <Bug className="h-5 w-5" />
+                        </div>
+                        <h3 className="font-medium text-md mb-1">
+                          Control de patógenos - Incidencia de patógenos del cacao
                         </h3>
-                        <p className="text-xs text-gray-400">
-                          Otros tipos de registros y bitácoras
+                        <p className="text-xs text-gray-600">
+                          Registro y seguimiento de patógenos del cacao
                         </p>
                       </CardContent>
                     </Card>
