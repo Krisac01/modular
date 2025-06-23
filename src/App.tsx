@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import MainMenu from "./pages/MainMenu";
 import Login from "./pages/Login";
+import CacaoPathogens from "./pages/CacaoPathogens";
 
 const queryClient = new QueryClient();
 
@@ -96,7 +97,7 @@ const App = () => {
             } />
             <Route path="/cacao-pathogens" element={
               <ProtectedRoute>
-                <MainMenu />
+                <CacaoPathogens />
               </ProtectedRoute>
             } />
             <Route path="/ai-alerts" element={
