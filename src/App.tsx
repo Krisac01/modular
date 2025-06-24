@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import MainMenu from "./pages/MainMenu";
 import Login from "./pages/Login";
 import CacaoPathogens from "./pages/CacaoPathogens";
+import Supplies from "./pages/Supplies";
 
 const queryClient = new QueryClient();
 
@@ -82,7 +82,7 @@ const App = () => {
             } />
             <Route path="/supplies" element={
               <ProtectedRoute>
-                <MainMenu />
+                <Supplies />
               </ProtectedRoute>
             } />
             <Route path="/tools" element={
