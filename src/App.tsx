@@ -11,6 +11,7 @@ import MainMenu from "./pages/MainMenu";
 import Login from "./pages/Login";
 import CacaoPathogens from "./pages/CacaoPathogens";
 import Supplies from "./pages/Supplies";
+import Tools from "./pages/Tools";
 
 const queryClient = new QueryClient();
 
@@ -87,7 +88,7 @@ const App = () => {
             } />
             <Route path="/tools" element={
               <ProtectedRoute>
-                <MainMenu />
+                <Tools />
               </ProtectedRoute>
             } />
             <Route path="/logbook" element={
