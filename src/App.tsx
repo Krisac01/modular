@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import CacaoPathogens from "./pages/CacaoPathogens";
 import Supplies from "./pages/Supplies";
 import Tools from "./pages/Tools";
+import Location from "./pages/Location";
 
 const queryClient = new QueryClient();
 
@@ -73,7 +74,7 @@ const App = () => {
             } />
             <Route path="/location" element={
               <ProtectedRoute>
-                <MainMenu />
+                <Location />
               </ProtectedRoute>
             } />
             <Route path="/work-area" element={
