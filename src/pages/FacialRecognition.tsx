@@ -1,0 +1,137 @@
+import { Layout } from "@/components/Layout";
+import { FacialRecognitionProvider } from "@/context/FacialRecognitionContext";
+import { FacialRecognitionScanner } from "@/components/FacialRecognitionScanner";
+import { FacialRecognitionHistory } from "@/components/FacialRecognitionHistory";
+import { Button } from "@/components/ui/button";
+import { Download, User, Shield, Clock } from "lucide-react";
+import { useFacialRecognition } from "@/context/FacialRecognitionContext";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useIsMobile } from "@/hooks/use-mobile";
+
+function FacialRecognitionContent() {
+  const { exportToCSV, data, isSessionActive, currentSession } = useFacialRecognition();
+  const isMobile = useIsMobile();
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-purple-100 rounded-full">
+            <User className="h-8 w-8 text-purple-600" />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold text-green-dark">
+              Reconocimiento Facial
+            </h1>
+            <p className="text-gray-600 mt-1">
+              Autenticación biométrica para registro de posesión
+            </p>
+          </div>
+        </div>
+        <div className="flex gap-2">
+          {isSessionActive && currentSession && (
+            <Button 
+              variant="outline"
+              className="flex items-center gap-2 border-green-500 text-green-700"
+            >
+              <Clock className="h-4 w-4" />
+              Sesión: {currentSession.userName}
+            </Button>
+          )}
+          <Button 
+            onClick={exportToCSV}
+            variant="outline" 
+            className="flex items-center gap-2"
+            disabled={data.sessions.length === 0}
+          >
+            <Download className="h-4 w-4" />
+            Exportar CSV
+          </Button>
+        </div>
+      </div>
+
+      {/* Content */}
+      {isMobile ? (
+        <Tabs defaultValue="scanner" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="scanner">Reconocimiento</TabsTrigger>
+            <TabsTrigger value="history">
+              Historial ({data.sessions.length})
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="scanner">
+            <FacialRecognitionScanner />
+          </TabsContent>
+          <TabsContent value="history">
+            <FacialRecognitionHistory />
+          </TabsContent>
+        </Tabs>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div>
+            <FacialRecognitionScanner />
+          </div>
+          <div>
+            <FacialRecognitionHistory />
+          </div>
+        </div>
+      )}
+
+      {/* Information Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-purple-50 p-4 rounded-lg">
+          <h3 className="font-medium text-purple-800 mb-2 flex items-center gap-2">
+            <Shield className="h-4 w-4" />
+            Seguridad y Privacidad
+          </h3>
+          <div className="text-sm text-purple-700 space-y-1">
+            <p>• Reconocimiento facial local (no se envían datos)</p>
+            <p>• Algoritmos de alta precisión (>80% confianza)</p>
+            <p>• Sesiones temporales de 10 minutos</p>
+            <p>• Datos biométricos no almacenados</p>
+            <p>• Cumplimiento con normativas de privacidad</p>
+          </div>
+        </div>
+
+        <div className="bg-blue-50 p-4 rounded-lg">
+          <h3 className="font-medium text-blue-800 mb-2 flex items-center gap-2">
+            <Clock className="h-4 w-4" />
+            Funcionalidades Habilitadas
+          </h3>
+          <div className="text-sm text-blue-700 space-y-1">
+            <p>• Registro de posesión de insumos agrícolas</p>
+            <p>• Registro de posesión de herramientas</p>
+            <p>• Trazabilidad de actividades por usuario</p>
+            <p>• Geolocalización de registros</p>
+            <p>• Historial de sesiones y actividades</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Usage Instructions */}
+      <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+        <h3 className="font-medium text-yellow-800 mb-2">Flujo de Trabajo</h3>
+        <div className="text-sm text-yellow-700 space-y-1">
+          <p><strong>1. Autenticación:</strong> Realice reconocimiento facial para iniciar sesión de 10 minutos</p>
+          <p><strong>2. Registro:</strong> Durante la sesión activa, registre posesión de insumos o herramientas</p>
+          <p><strong>3. Trazabilidad:</strong> Todos los registros quedan vinculados al usuario autenticado</p>
+          <p><strong>4. Extensión:</strong> Extienda la sesión por 10 minutos adicionales si es necesario</p>
+          <p><strong>5. Finalización:</strong> La sesión expira automáticamente o puede finalizarse manualmente</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const FacialRecognition = () => {
+  return (
+    <FacialRecognitionProvider>
+      <Layout>
+        <FacialRecognitionContent />
+      </Layout>
+    </FacialRecognitionProvider>
+  );
+};
+
+export default FacialRecognition;

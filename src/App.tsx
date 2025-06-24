@@ -13,6 +13,7 @@ import CacaoPathogens from "./pages/CacaoPathogens";
 import Supplies from "./pages/Supplies";
 import Tools from "./pages/Tools";
 import Location from "./pages/Location";
+import FacialRecognition from "./pages/FacialRecognition";
 
 const queryClient = new QueryClient();
 
@@ -70,6 +71,11 @@ const App = () => {
             <Route path="/menu" element={
               <ProtectedRoute>
                 <MainMenu />
+              </ProtectedRoute>
+            } />
+            <Route path="/facial-recognition" element={
+              <ProtectedRoute>
+                <FacialRecognition />
               </ProtectedRoute>
             } />
             <Route path="/location" element={
