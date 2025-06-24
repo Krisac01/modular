@@ -19,6 +19,13 @@ export function CacaoPathogenInput() {
   const [incidenceLevel, setIncidenceLevel] = useState(0);
   const [notes, setNotes] = useState("");
 
+  const handlePathogenTypeChange = (value: string) => {
+    // Type-safe conversion from string to PathogenType | ""
+    if (value === "" || PATHOGEN_TYPES.includes(value as PathogenType)) {
+      setPathogenType(value as PathogenType | "");
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -95,7 +102,7 @@ export function CacaoPathogenInput() {
 
               <div className="space-y-2">
                 <Label htmlFor="pathogenType">Tipo de Patógeno</Label>
-                <Select value={pathogenType} onValueChange={setPathogenType} required>
+                <Select value={pathogenType} onValueChange={handlePathogenTypeChange} required>
                   <SelectTrigger>
                     <SelectValue placeholder="Seleccione el patógeno" />
                   </SelectTrigger>
