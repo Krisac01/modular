@@ -2,12 +2,20 @@ import { Layout } from "@/components/Layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
-import { MapPin, LayoutGrid, Package, Wrench, BookOpen, Lightbulb, Bug, User, Settings, LogOut, Clock } from "lucide-react";
+import { MapPin, LayoutGrid, Package, Wrench, BookOpen, Lightbulb, Bug, User, Settings, LogOut, Clock, ChevronDown, UserCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const MainMenu = () => {
   const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const [currentTime, setCurrentTime] = useState(new Date());
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -16,6 +24,13 @@ const MainMenu = () => {
     if (userStr) {
       setUser(JSON.parse(userStr));
     }
+
+    // Update time every minute
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60000);
+
+    return () => clearInterval(timer);
   }, []);
 
   const handleLogout = () => {
@@ -30,8 +45,22 @@ const MainMenu = () => {
     navigate("/login");
   };
 
+  const handleProfile = () => {
+    toast({
+      title: "Perfil de usuario",
+      description: "Funcionalidad en desarrollo",
+    });
+  };
+
+  const handleSettings = () => {
+    toast({
+      title: "Configuración",
+      description: "Funcionalidad en desarrollo",
+    });
+  };
+
   const getCurrentTime = () => {
-    return new Date().toLocaleTimeString('es-ES', { 
+    return currentTime.toLocaleTimeString('es-ES', { 
       hour: '2-digit', 
       minute: '2-digit',
       hour12: false 
@@ -39,7 +68,7 @@ const MainMenu = () => {
   };
 
   const getCurrentDate = () => {
-    return new Date().toLocaleDateString('es-ES', { 
+    return currentTime.toLocaleDateString('es-ES', { 
       weekday: 'long',
       year: 'numeric',
       month: 'long',
@@ -83,7 +112,7 @@ const MainMenu = () => {
   return (
     <Layout hideHeader>
       <div className="max-w-4xl mx-auto">
-        {/* User Banner */}
+        {/* User Banner with Dropdown */}
         <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg p-6 mb-8 text-white shadow-lg">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div className="flex items-center gap-4">
@@ -107,15 +136,60 @@ const MainMenu = () => {
                 </div>
               </div>
             </div>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={handleLogout}
-              className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white"
-            >
-              <LogOut className="h-4 w-4 mr-2" />
-              Cerrar Sesión
-            </Button>
+
+            {/* User Dropdown Menu */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white flex items-center gap-2"
+                >
+                  <User className="h-4 w-4" />
+                  <span className="hidden sm:inline">Mi Cuenta</span>
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent 
+                align="end" 
+                className="w-56 bg-white border border-gray-200 shadow-lg"
+              >
+                <div className="px-3 py-2 border-b border-gray-100">
+                  <p className="text-sm font-medium text-gray-900">
+                    {user?.name || 'Usuario'}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {user?.email || 'usuario@ejemplo.com'}
+                  </p>
+                </div>
+                
+                <DropdownMenuItem 
+                  onClick={handleProfile}
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer"
+                >
+                  <UserCircle className="h-4 w-4" />
+                  Ver Perfil
+                </DropdownMenuItem>
+                
+                <DropdownMenuItem 
+                  onClick={handleSettings}
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer"
+                >
+                  <Settings className="h-4 w-4" />
+                  Configuración
+                </DropdownMenuItem>
+                
+                <DropdownMenuSeparator className="my-1 border-gray-100" />
+                
+                <DropdownMenuItem 
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 cursor-pointer"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Cerrar Sesión
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
 
