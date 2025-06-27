@@ -9,8 +9,7 @@ const MainMenu = () => {
       title: "Reconocimiento Facial",
       icon: <User className="h-8 w-8" />,
       path: "/facial-recognition",
-      description: "Autenticación biométrica para registro de posesión (10 min activo)",
-      featured: true
+      description: "Autenticación biométrica para registro de posesión (10 min activo)"
     },
     {
       title: "Actualizar Ubicación",
@@ -61,28 +60,13 @@ const MainMenu = () => {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {menuItems.map((item) => (
             <Link to={item.path} key={item.path} className="block">
-              <Card className={`h-full transition-all duration-200 hover:shadow-lg hover:scale-105 border-2 ${
-                item.featured 
-                  ? 'border-purple-200 bg-gradient-to-br from-purple-50 to-blue-50' 
-                  : 'border-gray-100'
-              }`}>
+              <Card className="h-full transition-all duration-200 hover:shadow-lg hover:scale-105 border-2 border-gray-100">
                 <CardContent className="pt-6 flex flex-col items-center text-center">
-                  <div className={`rounded-full p-3 mb-4 ${
-                    item.featured 
-                      ? 'bg-purple-100 text-purple-600' 
-                      : 'bg-green-50 text-green-dark'
-                  }`}>
+                  <div className="rounded-full p-3 mb-4 bg-green-50 text-green-dark">
                     {item.icon}
                   </div>
                   <h2 className="font-semibold text-lg mb-2">{item.title}</h2>
                   <p className="text-sm text-gray-500">{item.description}</p>
-                  {item.featured && (
-                    <div className="mt-2">
-                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
-                        ⭐ Nuevo
-                      </span>
-                    </div>
-                  )}
                 </CardContent>
               </Card>
             </Link>
