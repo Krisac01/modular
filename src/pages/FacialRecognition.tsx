@@ -87,7 +87,7 @@ function FacialRecognitionContent() {
           </h3>
           <div className="text-sm text-purple-700 space-y-1">
             <p>• Reconocimiento facial local (no se envían datos)</p>
-            <p>• Algoritmos de alta precisión (>80% confianza)</p>
+            <p>• Algoritmos de alta precisión ({'>'} 80% confianza)</p>
             <p>• Sesiones temporales de 10 minutos</p>
             <p>• Datos biométricos no almacenados</p>
             <p>• Cumplimiento con normativas de privacidad</p>
