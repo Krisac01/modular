@@ -1,10 +1,52 @@
 import { Layout } from "@/components/Layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import { MapPin, LayoutGrid, Package, Wrench, BookOpen, Lightbulb, Bug, User, Settings } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { MapPin, LayoutGrid, Package, Wrench, BookOpen, Lightbulb, Bug, User, Settings, LogOut, Clock } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const MainMenu = () => {
+  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const userStr = localStorage.getItem("user");
+    if (userStr) {
+      setUser(JSON.parse(userStr));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("user");
+    
+    toast({
+      title: "Sesión cerrada",
+      description: "Ha cerrado sesión exitosamente",
+    });
+    
+    navigate("/login");
+  };
+
+  const getCurrentTime = () => {
+    return new Date().toLocaleTimeString('es-ES', { 
+      hour: '2-digit', 
+      minute: '2-digit',
+      hour12: false 
+    });
+  };
+
+  const getCurrentDate = () => {
+    return new Date().toLocaleDateString('es-ES', { 
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
   const menuItems = [
     {
       title: "Actualizar Ubicación",
@@ -41,6 +83,43 @@ const MainMenu = () => {
   return (
     <Layout hideHeader>
       <div className="max-w-4xl mx-auto">
+        {/* User Banner */}
+        <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg p-6 mb-8 text-white shadow-lg">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div className="flex items-center gap-4">
+              <div className="bg-white/20 rounded-full p-3">
+                <User className="h-8 w-8 text-white" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold">
+                  ¡Bienvenido, {user?.name || 'Usuario'}!
+                </h2>
+                <p className="text-green-100 text-sm">
+                  {user?.email || 'usuario@ejemplo.com'}
+                </p>
+                <div className="flex items-center gap-4 mt-2 text-green-100 text-sm">
+                  <div className="flex items-center gap-1">
+                    <Clock className="h-4 w-4" />
+                    <span>{getCurrentTime()}</span>
+                  </div>
+                  <span>•</span>
+                  <span className="capitalize">{getCurrentDate()}</span>
+                </div>
+              </div>
+            </div>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={handleLogout}
+              className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white"
+            >
+              <LogOut className="h-4 w-4 mr-2" />
+              Cerrar Sesión
+            </Button>
+          </div>
+        </div>
+
+        {/* Logo and Title */}
         <div className="flex flex-col items-center mb-8">
           <img 
             src="/lovable-uploads/1b34c799-c8d6-481c-a574-7fcafc61c176.png" 
