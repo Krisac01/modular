@@ -54,11 +54,18 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <Routes>
-            {/* Ruta de login accesible públicamente */}
+            {/* Ruta de login como página inicial */}
             <Route path="/login" element={<Login />} />
             
-            {/* Rutas protegidas que requieren autenticación */}
+            {/* Redireccionar la raíz al login si no está autenticado, al menú si está autenticado */}
             <Route path="/" element={
+              localStorage.getItem('isAuthenticated') === 'true' 
+                ? <Navigate to="/menu" replace />
+                : <Navigate to="/login" replace />
+            } />
+            
+            {/* Rutas protegidas que requieren autenticación */}
+            <Route path="/data" element={
               <ProtectedRoute>
                 <Index />
               </ProtectedRoute>

@@ -104,7 +104,7 @@ const MainMenu = () => {
 
                 {/* Sub-options container */}
                 <div className="w-full max-w-2xl mt-2 grid md:grid-cols-2 gap-4">
-                  <Link to="/" className="block">
+                  <Link to="/data" className="block">
                     <Card className="h-full bg-white transition-all duration-200 hover:shadow-md hover:scale-102">
                       <CardContent className="pt-4 pb-4 flex flex-col items-center text-center">
                         <h3 className="font-medium text-md mb-1">

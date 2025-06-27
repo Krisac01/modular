@@ -1,4 +1,3 @@
-
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -63,10 +62,10 @@ export function Header() {
               </li>
               <li>
                 <Link
-                  to="/"
+                  to="/data"
                   className={cn(
                     "py-2 px-1 border-b-2",
-                    pathname === "/" ? "border-white" : "border-transparent"
+                    pathname === "/data" ? "border-white" : "border-transparent"
                   )}
                 >
                   {isMobile ? "Datos" : "Recolección de Datos"}
