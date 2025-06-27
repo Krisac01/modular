@@ -1,7 +1,7 @@
 import { Layout } from "@/components/Layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { MapPin, LayoutGrid, Package, Wrench, BookOpen, Lightbulb, Bug, User } from "lucide-react";
+import { MapPin, LayoutGrid, Package, Wrench, BookOpen, Lightbulb, Bug, User, Settings } from "lucide-react";
 
 const MainMenu = () => {
   const menuItems = [
@@ -20,7 +20,7 @@ const MainMenu = () => {
     },
     {
       title: "Actualizar Área de trabajo",
-      icon: <LayoutGrid className="h-8 w-8" />,
+      icon: <Settings className="h-8 w-8" />,
       path: "/work-area",
       description: "Administrar el área de trabajo actual"
     },
@@ -107,6 +107,9 @@ const MainMenu = () => {
                   <Link to="/data" className="block">
                     <Card className="h-full bg-white transition-all duration-200 hover:shadow-md hover:scale-102">
                       <CardContent className="pt-4 pb-4 flex flex-col items-center text-center">
+                        <div className="rounded-full bg-green-50 p-2 mb-2 text-green-600">
+                          <LayoutGrid className="h-5 w-5" />
+                        </div>
                         <h3 className="font-medium text-md mb-1">
                           Control de Plagas - Invernadero
                         </h3>
