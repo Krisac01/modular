@@ -1,16 +1,11 @@
 import { Layout } from "@/components/Layout";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { MapPin, LayoutGrid, Package, Wrench, BookOpen, Lightbulb, Bug, User, Settings } from "lucide-react";
 
 const MainMenu = () => {
   const menuItems = [
-    {
-      title: "Reconocimiento Facial",
-      icon: <User className="h-8 w-8" />,
-      path: "/facial-recognition",
-      description: "Autenticación biométrica para registro de posesión (10 min activo)"
-    },
     {
       title: "Actualizar Ubicación",
       icon: <MapPin className="h-8 w-8" />,
@@ -125,6 +120,17 @@ const MainMenu = () => {
           </Link>
         </div>
       </div>
+
+      {/* Floating Facial Recognition Button */}
+      <Link to="/facial-recognition">
+        <Button 
+          className="fixed bottom-6 right-6 h-16 w-16 rounded-full bg-purple-600 hover:bg-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 z-50 flex items-center justify-center group"
+          size="lg"
+        >
+          <User className="h-8 w-8 text-white group-hover:scale-110 transition-transform duration-200" />
+          <span className="sr-only">Reconocimiento Facial</span>
+        </Button>
+      </Link>
     </Layout>
   );
 };
