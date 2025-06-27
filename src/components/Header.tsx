@@ -42,7 +42,7 @@ export function Header() {
             className="h-9 w-9 md:h-12 md:w-12"
           />
           <h1 className="font-semibold text-lg md:text-xl">
-            Control de Plagas - Invernadero
+            Modular Agrosolutions
           </h1>
         </div>
         <div className="flex flex-col md:flex-row items-center gap-4">
