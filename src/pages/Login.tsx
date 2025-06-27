@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Layout } from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -76,7 +75,7 @@ const Login = () => {
               <img 
                 src="/lovable-uploads/1b34c799-c8d6-481c-a574-7fcafc61c176.png" 
                 alt="Modular Agrosolutions" 
-                className="h-19 w-19"
+                className="h-15 w-15"
               />
             </div>
             <CardTitle className="text-2xl font-bold text-green-dark">Acceso a la aplicación de captura de datos</CardTitle>

@@ -39,7 +39,7 @@ export function Header() {
           <img 
             src="/lovable-uploads/1b34c799-c8d6-481c-a574-7fcafc61c176.png" 
             alt="Modular Agrosolutions" 
-            className="h-9 w-9 md:h-12 md:w-12"
+            className="h-7 w-7 md:h-10 md:w-10"
           />
           <h1 className="font-semibold text-lg md:text-xl">
             Modular Agrosolutions
