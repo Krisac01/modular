@@ -60,31 +60,36 @@ function ToolContent() {
 
   return (
     <div className="space-y-6">
-      {/* Header Banner Normalizado */}
-      <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg p-6 text-white shadow-lg">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div className="flex items-center gap-4">
-            <div className="bg-white/20 rounded-full p-3">
-              <Wrench className="h-8 w-8 text-white" />
+      {/* Header Banner Optimizado para Móvil */}
+      <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg p-4 md:p-6 text-white shadow-lg">
+        <div className="flex flex-col gap-4">
+          {/* Fila Superior - Título e Ícono */}
+          <div className="flex items-center gap-3">
+            <div className="bg-white/20 rounded-full p-2 md:p-3 flex-shrink-0">
+              <Wrench className="h-6 w-6 md:h-8 md:w-8 text-white" />
             </div>
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-lg md:text-2xl lg:text-3xl font-bold leading-tight">
                 Posesión de Herramientas
               </h1>
-              <p className="text-green-100 text-sm mt-1">
+              <p className="text-green-100 text-xs md:text-sm mt-1 leading-tight">
                 Asignación y control de herramientas agrícolas
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-4">
+          
+          {/* Fila Inferior - Controles */}
+          <div className="flex items-center justify-end gap-2">
             <Button 
               onClick={exportToCSV}
               variant="outline" 
-              className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white flex items-center gap-2"
+              className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white flex items-center gap-1.5 px-3 py-2 h-9 text-sm"
               disabled={data.records.length === 0}
+              size="sm"
             >
-              <Download className="h-4 w-4" />
-              Exportar CSV
+              <Download className="h-4 w-4 flex-shrink-0" />
+              <span className="hidden xs:inline">Exportar CSV</span>
+              <span className="xs:hidden">CSV</span>
             </Button>
             
             {/* Botón Inicio */}
@@ -92,10 +97,10 @@ function ToolContent() {
               <Button 
                 variant="outline" 
                 size="sm" 
-                className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white flex items-center gap-2"
+                className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white flex items-center gap-1.5 px-3 py-2 h-9"
               >
-                <Home className="h-4 w-4" />
-                <span className="hidden sm:inline">Inicio</span>
+                <Home className="h-4 w-4 flex-shrink-0" />
+                <span className="hidden xs:inline text-sm">Inicio</span>
               </Button>
             </Link>
             
@@ -105,11 +110,11 @@ function ToolContent() {
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white flex items-center gap-2"
+                  className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white flex items-center gap-1.5 px-3 py-2 h-9"
                 >
-                  <User className="h-4 w-4" />
-                  <span className="hidden sm:inline">Mi Cuenta</span>
-                  <ChevronDown className="h-4 w-4" />
+                  <User className="h-4 w-4 flex-shrink-0" />
+                  <span className="hidden xs:inline text-sm">Mi Cuenta</span>
+                  <ChevronDown className="h-3 w-3 flex-shrink-0" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent 
@@ -117,10 +122,10 @@ function ToolContent() {
                 className="w-56 bg-white border border-gray-200 shadow-lg"
               >
                 <div className="px-3 py-2 border-b border-gray-100">
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-sm font-medium text-gray-900 truncate">
                     {user?.name || 'Usuario'}
                   </p>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-500 truncate">
                     {user?.email || 'usuario@ejemplo.com'}
                   </p>
                 </div>
