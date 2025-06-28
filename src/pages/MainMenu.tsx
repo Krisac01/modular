@@ -22,8 +22,7 @@ import {
   CheckCircle,
   Timer,
   Target,
-  Calendar,
-  Sparkles
+  Calendar
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -354,55 +353,29 @@ const MainMenu = () => {
           </CardContent>
         </Card>
 
-        {/* Título Estilizado del Menú Principal */}
+        {/* Título Minimalista con Efectos Sutiles */}
         <div className="text-center mb-12">
           <div className="relative inline-block">
-            {/* Efecto de brillo de fondo */}
-            <div className="absolute inset-0 bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 rounded-2xl blur-lg opacity-20 animate-pulse"></div>
+            {/* Efecto de resplandor sutil */}
+            <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 via-green-600/30 to-green-500/20 rounded-xl blur-md opacity-60"></div>
             
-            {/* Contenedor principal del título */}
-            <div className="relative bg-gradient-to-r from-green-600 via-green-700 to-green-800 rounded-2xl p-8 shadow-2xl border border-green-200">
-              {/* Decoración superior */}
-              <div className="flex justify-center mb-4">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-green-300 rounded-full animate-pulse"></div>
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse delay-100"></div>
-                  <div className="w-3 h-3 bg-green-300 rounded-full animate-pulse delay-200"></div>
-                </div>
-              </div>
-              
-              {/* Título principal con efectos */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white text-center relative">
-                <span className="relative z-10 bg-gradient-to-r from-white via-green-100 to-white bg-clip-text text-transparent">
-                  Menú Principal
-                </span>
-                
-                {/* Efecto de resplandor */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-20 blur-sm"></div>
+            {/* Contenedor principal minimalista */}
+            <div className="relative bg-white border border-green-200 rounded-xl p-8 shadow-lg">
+              {/* Título principal limpio */}
+              <h1 className="text-4xl md:text-5xl font-light text-gray-800 mb-2 tracking-wide">
+                Menú Principal
               </h1>
               
+              {/* Línea decorativa minimalista */}
+              <div className="w-24 h-0.5 bg-gradient-to-r from-green-400 to-green-600 mx-auto mb-3"></div>
+              
               {/* Subtítulo elegante */}
-              <div className="mt-4 flex items-center justify-center gap-2">
-                <Sparkles className="h-5 w-5 text-green-200 animate-pulse" />
-                <p className="text-green-100 text-lg font-medium tracking-wide">
-                  Sistema de Gestión Agrícola
-                </p>
-                <Sparkles className="h-5 w-5 text-green-200 animate-pulse" />
-              </div>
+              <p className="text-green-600 text-sm font-medium tracking-wider uppercase">
+                Sistema de Gestión Agrícola
+              </p>
               
-              {/* Línea decorativa */}
-              <div className="mt-6 flex justify-center">
-                <div className="w-32 h-1 bg-gradient-to-r from-transparent via-green-300 to-transparent rounded-full"></div>
-              </div>
-              
-              {/* Decoración inferior */}
-              <div className="flex justify-center mt-4">
-                <div className="flex items-center gap-1">
-                  <div className="w-1 h-1 bg-green-300 rounded-full"></div>
-                  <div className="w-2 h-2 bg-green-200 rounded-full"></div>
-                  <div className="w-1 h-1 bg-green-300 rounded-full"></div>
-                </div>
-              </div>
+              {/* Efecto de brillo sutil en hover */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500 rounded-xl pointer-events-none"></div>
             </div>
           </div>
         </div>
