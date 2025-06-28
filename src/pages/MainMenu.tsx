@@ -382,7 +382,7 @@ const MainMenu = () => {
           ))}
         </div>
 
-        {/* Bitácora electrónica con actividades asignadas */}
+        {/* Bitácora electrónica reorganizada */}
         <Card className="mt-8 bg-green-50 border-2 border-green-100">
           <CardHeader className="text-center">
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -398,108 +398,125 @@ const MainMenu = () => {
                 </p>
               </div>
             </div>
-
-            {/* Enlaces de bitácora en vertical */}
-            <div className="flex flex-col items-center gap-3 mb-6 max-w-md mx-auto">
-              <Link to="/data" className="w-full">
-                <Button variant="outline" className="w-full flex items-center gap-2 justify-start px-4 py-3 h-auto">
-                  <LayoutGrid className="h-5 w-5" />
-                  <div className="text-left">
-                    <div className="font-medium">Control de Plagas - Invernadero</div>
-                    <div className="text-xs text-gray-500">Registro de incidencia en surcos</div>
-                  </div>
-                </Button>
-              </Link>
-              <Link to="/cacao-pathogens" className="w-full">
-                <Button variant="outline" className="w-full flex items-center gap-2 justify-start px-4 py-3 h-auto">
-                  <Bug className="h-5 w-5" />
-                  <div className="text-left">
-                    <div className="font-medium">Control de Patógenos - Cacao</div>
-                    <div className="text-xs text-gray-500">Registro de patógenos en árboles</div>
-                  </div>
-                </Button>
-              </Link>
-            </div>
           </CardHeader>
 
           <CardContent>
-            {/* Solo Actividades Asignadas al Usuario */}
-            <Card className="bg-white">
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <Target className="h-5 w-5 text-orange-600" />
-                  Actividades Asignadas
-                </CardTitle>
-                <Badge variant="outline" className="bg-orange-50 text-orange-700">
-                  {assignedActivities.filter(a => a.status === 'pending').length} pendientes
-                </Badge>
-              </CardHeader>
-              <CardContent>
-                <ScrollArea className="h-80">
-                  <div className="space-y-3">
-                    {assignedActivities.map((activity) => (
-                      <Card key={activity.id} className="border-l-4 border-l-orange-400">
-                        <CardContent className="pt-3 pb-3">
-                          <div className="flex items-start gap-3">
-                            <div className={`w-3 h-3 rounded-full mt-2 ${getPriorityColor(activity.priority)}`}></div>
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center justify-between mb-1">
-                                <h4 className="font-medium text-sm">{activity.title}</h4>
-                                <Badge 
-                                  variant="outline" 
-                                  className={`text-xs ${
-                                    activity.priority === 'high' ? 'border-red-300 text-red-700' :
-                                    activity.priority === 'medium' ? 'border-yellow-300 text-yellow-700' :
-                                    'border-green-300 text-green-700'
-                                  }`}
-                                >
-                                  {activity.priority === 'high' ? 'Alta' : 
-                                   activity.priority === 'medium' ? 'Media' : 'Baja'}
-                                </Badge>
-                              </div>
-                              <p className="text-xs text-gray-600 mb-2">{activity.description}</p>
-                              <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
-                                <User className="h-3 w-3" />
-                                <span>Por: {activity.assignedBy}</span>
-                                <span>•</span>
-                                <MapPin className="h-3 w-3" />
-                                <span>{activity.location}</span>
-                              </div>
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2 text-xs text-gray-500">
-                                  <Timer className="h-3 w-3" />
-                                  <span>{activity.estimatedTime}</span>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Columna Izquierda - Enlaces de Bitácora */}
+              <Card className="bg-white">
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <BookOpen className="h-5 w-5 text-green-600" />
+                    Acceso a Bitácoras
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <Link to="/data" className="block">
+                    <Button variant="outline" className="w-full flex items-center gap-3 justify-start px-4 py-4 h-auto hover:bg-green-50 hover:border-green-300">
+                      <LayoutGrid className="h-6 w-6 text-green-600" />
+                      <div className="text-left">
+                        <div className="font-medium text-base">Control de Plagas - Invernadero</div>
+                        <div className="text-sm text-gray-500">Registro de incidencia en surcos del invernadero</div>
+                      </div>
+                    </Button>
+                  </Link>
+                  
+                  <Link to="/cacao-pathogens" className="block">
+                    <Button variant="outline" className="w-full flex items-center gap-3 justify-start px-4 py-4 h-auto hover:bg-orange-50 hover:border-orange-300">
+                      <Bug className="h-6 w-6 text-orange-600" />
+                      <div className="text-left">
+                        <div className="font-medium text-base">Control de Patógenos - Cacao</div>
+                        <div className="text-sm text-gray-500">Registro de patógenos en árboles de cacao</div>
+                      </div>
+                    </Button>
+                  </Link>
+
+                  <div className="pt-4 border-t">
+                    <p className="text-xs text-gray-500 text-center">
+                      Seleccione el tipo de registro que desea realizar
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Columna Derecha - Actividades Asignadas */}
+              <Card className="bg-white">
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Target className="h-5 w-5 text-orange-600" />
+                    Actividades Asignadas
+                  </CardTitle>
+                  <Badge variant="outline" className="bg-orange-50 text-orange-700">
+                    {assignedActivities.filter(a => a.status === 'pending').length} pendientes
+                  </Badge>
+                </CardHeader>
+                <CardContent>
+                  <ScrollArea className="h-80">
+                    <div className="space-y-3">
+                      {assignedActivities.map((activity) => (
+                        <Card key={activity.id} className="border-l-4 border-l-orange-400">
+                          <CardContent className="pt-3 pb-3">
+                            <div className="flex items-start gap-3">
+                              <div className={`w-3 h-3 rounded-full mt-2 ${getPriorityColor(activity.priority)}`}></div>
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center justify-between mb-1">
+                                  <h4 className="font-medium text-sm">{activity.title}</h4>
+                                  <Badge 
+                                    variant="outline" 
+                                    className={`text-xs ${
+                                      activity.priority === 'high' ? 'border-red-300 text-red-700' :
+                                      activity.priority === 'medium' ? 'border-yellow-300 text-yellow-700' :
+                                      'border-green-300 text-green-700'
+                                    }`}
+                                  >
+                                    {activity.priority === 'high' ? 'Alta' : 
+                                     activity.priority === 'medium' ? 'Media' : 'Baja'}
+                                  </Badge>
                                 </div>
-                                <div className="flex items-center gap-2 text-xs">
-                                  <Calendar className="h-3 w-3" />
-                                  <span className={`font-medium ${
-                                    activity.dueDate < Date.now() + 1000 * 60 * 60 * 4 ? 'text-red-600' : 'text-gray-600'
-                                  }`}>
-                                    {formatTimeUntil(activity.dueDate)}
-                                  </span>
+                                <p className="text-xs text-gray-600 mb-2">{activity.description}</p>
+                                <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
+                                  <User className="h-3 w-3" />
+                                  <span>Por: {activity.assignedBy}</span>
+                                  <span>•</span>
+                                  <MapPin className="h-3 w-3" />
+                                  <span>{activity.location}</span>
                                 </div>
-                              </div>
-                              <div className="mt-2">
-                                <Button size="sm" variant="outline" className="w-full text-xs">
-                                  <CheckCircle className="h-3 w-3 mr-1" />
-                                  Marcar como Completada
-                                </Button>
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                                    <Timer className="h-3 w-3" />
+                                    <span>{activity.estimatedTime}</span>
+                                  </div>
+                                  <div className="flex items-center gap-2 text-xs">
+                                    <Calendar className="h-3 w-3" />
+                                    <span className={`font-medium ${
+                                      activity.dueDate < Date.now() + 1000 * 60 * 60 * 4 ? 'text-red-600' : 'text-gray-600'
+                                    }`}>
+                                      {formatTimeUntil(activity.dueDate)}
+                                    </span>
+                                  </div>
+                                </div>
+                                <div className="mt-2">
+                                  <Button size="sm" variant="outline" className="w-full text-xs">
+                                    <CheckCircle className="h-3 w-3 mr-1" />
+                                    Marcar como Completada
+                                  </Button>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </ScrollArea>
+                  <div className="mt-4 pt-4 border-t">
+                    <Button variant="outline" size="sm" className="w-full flex items-center gap-2">
+                      <Calendar className="h-4 w-4" />
+                      Ver Todas las Asignaciones
+                    </Button>
                   </div>
-                </ScrollArea>
-                <div className="mt-4 pt-4 border-t">
-                  <Button variant="outline" size="sm" className="w-full flex items-center gap-2">
-                    <Calendar className="h-4 w-4" />
-                    Ver Todas las Asignaciones
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
           </CardContent>
         </Card>
       </div>
