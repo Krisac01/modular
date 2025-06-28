@@ -22,12 +22,14 @@ import {
   CheckCircle,
   Timer,
   Target,
-  Calendar
+  Calendar,
+  Shield
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import { useUser } from "@/context/UserContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -37,18 +39,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const MainMenu = () => {
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const { currentUser, isAdmin, logout } = useUser();
   const [currentTime, setCurrentTime] = useState(new Date());
   const [facialRecognitionEnabled, setFacialRecognitionEnabled] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
   useEffect(() => {
-    const userStr = localStorage.getItem("user");
-    if (userStr) {
-      setUser(JSON.parse(userStr));
-    }
-
     // Load facial recognition setting
     const facialSetting = localStorage.getItem("facialRecognitionEnabled");
     setFacialRecognitionEnabled(facialSetting === "true");
@@ -62,14 +59,11 @@ const MainMenu = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("isAuthenticated");
-    localStorage.removeItem("user");
-    
+    logout();
     toast({
       title: "Sesión cerrada",
       description: "Ha cerrado sesión exitosamente",
     });
-    
     navigate("/login");
   };
 
@@ -183,7 +177,7 @@ const MainMenu = () => {
     return `En ${days}d`;
   };
 
-  // Menú simplificado sin "Actualizar Área de trabajo"
+  // Menú simplificado
   const menuItems = [
     {
       title: "Actualizar Ubicación",
@@ -208,7 +202,7 @@ const MainMenu = () => {
   return (
     <Layout hideHeader>
       <div className="max-w-7xl mx-auto">
-        {/* Header Banner Normalizado - Menú Principal */}
+        {/* Header Banner con indicador de rol */}
         <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg p-6 mb-8 text-white shadow-lg">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div className="flex items-center gap-4">
@@ -217,10 +211,10 @@ const MainMenu = () => {
               </div>
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold">
-                  ¡Bienvenido, {user?.name || 'Usuario'}!
+                  ¡Bienvenido, {currentUser?.name || 'Usuario'}!
                 </h1>
                 <p className="text-green-100 text-sm mt-1">
-                  {user?.email || 'usuario@ejemplo.com'}
+                  {currentUser?.email || 'usuario@ejemplo.com'}
                 </p>
                 <div className="flex items-center gap-4 mt-2 text-green-100 text-sm">
                   <div className="flex items-center gap-1">
@@ -229,6 +223,15 @@ const MainMenu = () => {
                   </div>
                   <span>•</span>
                   <span className="capitalize">{getCurrentDate()}</span>
+                  {isAdmin && (
+                    <>
+                      <span>•</span>
+                      <Badge className="bg-red-500/80 text-white border-red-300">
+                        <Shield className="h-3 w-3 mr-1" />
+                        Administrador
+                      </Badge>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -252,11 +255,16 @@ const MainMenu = () => {
               >
                 <div className="px-3 py-2 border-b border-gray-100">
                   <p className="text-sm font-medium text-gray-900">
-                    {user?.name || 'Usuario'}
+                    {currentUser?.name || 'Usuario'}
                   </p>
                   <p className="text-xs text-gray-500">
-                    {user?.email || 'usuario@ejemplo.com'}
+                    {currentUser?.email || 'usuario@ejemplo.com'}
                   </p>
+                  <div className="mt-1">
+                    <Badge variant="outline" className={isAdmin ? "border-red-300 text-red-700" : "border-blue-300 text-blue-700"}>
+                      {isAdmin ? "Administrador" : "Usuario"}
+                    </Badge>
+                  </div>
                 </div>
                 
                 <DropdownMenuItem 
@@ -274,6 +282,21 @@ const MainMenu = () => {
                   <Settings className="h-4 w-4" />
                   Configuración
                 </DropdownMenuItem>
+                
+                {isAdmin && (
+                  <>
+                    <DropdownMenuSeparator className="my-1 border-gray-100" />
+                    <DropdownMenuItem asChild>
+                      <Link 
+                        to="/admin"
+                        className="flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 cursor-pointer"
+                      >
+                        <Shield className="h-4 w-4" />
+                        Panel de Administración
+                      </Link>
+                    </DropdownMenuItem>
+                  </>
+                )}
                 
                 <DropdownMenuSeparator className="my-1 border-gray-100" />
                 

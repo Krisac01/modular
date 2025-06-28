@@ -4,9 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/componen
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { LogIn, Mail } from "lucide-react";
+import { LogIn, Mail, Shield, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/context/UserContext";
+import { Badge } from "@/components/ui/badge";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,25 +16,27 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { login } = useUser();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulación de login básico
-    setTimeout(() => {
-      // En una implementación real, esta validación debería hacerse en el servidor
-      if (email === "admin@ejemplo.com" && password === "password") {
-        // Guardar información de sesión en localStorage
-        localStorage.setItem("isAuthenticated", "true");
-        localStorage.setItem("user", JSON.stringify({ email, name: "Usuario Demo" }));
-        
+    try {
+      const success = await login(email, password);
+      
+      if (success) {
         toast({
           title: "Inicio de sesión exitoso",
           description: "Bienvenido al sistema",
         });
         
-        navigate("/menu");
+        // Redirect based on role
+        if (email === "admin@ejemplo.com") {
+          navigate("/admin");
+        } else {
+          navigate("/menu");
+        }
       } else {
         toast({
           title: "Error de autenticación",
@@ -40,30 +44,25 @@ const Login = () => {
           variant: "destructive",
         });
       }
+    } catch (error) {
+      toast({
+        title: "Error del sistema",
+        description: "Ocurrió un error inesperado. Intente de nuevo.",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
-  const handleGoogleLogin = () => {
-    setIsLoading(true);
-
-    // Simulación de login con Google
-    setTimeout(() => {
-      // En una implementación real, aquí iría la autenticación con Google
-      localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("user", JSON.stringify({ 
-        email: "usuario.google@gmail.com", 
-        name: "Usuario Google" 
-      }));
-      
-      toast({
-        title: "Inicio de sesión exitoso",
-        description: "Bienvenido al sistema",
-      });
-      
-      navigate("/menu");
-      setIsLoading(false);
-    }, 1000);
+  const handleDemoLogin = (userType: 'admin' | 'user') => {
+    if (userType === 'admin') {
+      setEmail("admin@ejemplo.com");
+      setPassword("admin123");
+    } else {
+      setEmail("usuario@ejemplo.com");
+      setPassword("user123");
+    }
   };
 
   return (
@@ -78,10 +77,58 @@ const Login = () => {
                 className="h-20 w-20"
               />
             </div>
-            <CardTitle className="text-2xl font-bold text-green-dark">Acceso a la aplicación de captura de datos</CardTitle>
-            <p className="text-sm text-gray-500">Ingrese sus credenciales para acceder al sistema</p>
+            <CardTitle className="text-2xl font-bold text-green-dark">
+              Acceso al Sistema
+            </CardTitle>
+            <p className="text-sm text-gray-500">
+              Seleccione su tipo de usuario e ingrese sus credenciales
+            </p>
           </CardHeader>
-          <CardContent>
+          
+          <CardContent className="space-y-6">
+            {/* Demo User Selection */}
+            <div className="space-y-3">
+              <Label className="text-sm font-medium">Acceso Rápido (Demo)</Label>
+              <div className="grid grid-cols-2 gap-3">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => handleDemoLogin('admin')}
+                  className="flex flex-col items-center gap-2 h-auto py-3 hover:bg-red-50 hover:border-red-300"
+                  disabled={isLoading}
+                >
+                  <Shield className="h-5 w-5 text-red-600" />
+                  <span className="text-xs font-medium">Administrador</span>
+                  <Badge variant="outline" className="text-xs bg-red-50 text-red-700">
+                    Gestión Completa
+                  </Badge>
+                </Button>
+                
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => handleDemoLogin('user')}
+                  className="flex flex-col items-center gap-2 h-auto py-3 hover:bg-blue-50 hover:border-blue-300"
+                  disabled={isLoading}
+                >
+                  <User className="h-5 w-5 text-blue-600" />
+                  <span className="text-xs font-medium">Usuario</span>
+                  <Badge variant="outline" className="text-xs bg-blue-50 text-blue-700">
+                    Registro de Datos
+                  </Badge>
+                </Button>
+              </div>
+            </div>
+
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-200"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="bg-background px-2 text-gray-500">O ingrese manualmente</span>
+              </div>
+            </div>
+
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Correo electrónico</Label>
@@ -115,31 +162,28 @@ const Login = () => {
                 <LogIn className="ml-2 h-4 w-4" />
               </Button>
             </form>
-
-            <div className="relative my-4">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="bg-background px-2 text-gray-500">O continuar con</span>
+          </CardContent>
+          
+          <CardFooter className="text-sm text-center text-gray-500 space-y-2">
+            <div className="w-full space-y-1">
+              <p className="font-medium">Credenciales Demo:</p>
+              <div className="grid grid-cols-1 gap-1 text-xs">
+                <div className="flex items-center justify-between">
+                  <span className="flex items-center gap-1">
+                    <Shield className="h-3 w-3 text-red-600" />
+                    Admin:
+                  </span>
+                  <span className="font-mono">admin@ejemplo.com / admin123</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="flex items-center gap-1">
+                    <User className="h-3 w-3 text-blue-600" />
+                    Usuario:
+                  </span>
+                  <span className="font-mono">usuario@ejemplo.com / user123</span>
+                </div>
               </div>
             </div>
-
-            <Button 
-              type="button" 
-              variant="outline" 
-              className="w-full bg-white" 
-              onClick={handleGoogleLogin}
-              disabled={isLoading}
-            >
-              <Mail className="mr-2 h-4 w-4" />
-              Google
-            </Button>
-          </CardContent>
-          <CardFooter className="text-sm text-center text-gray-500">
-            <p className="w-full">
-              Credenciales demo: admin@ejemplo.com / password
-            </p>
           </CardFooter>
         </Card>
       </div>
