@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { Header } from "./Header";
 import { Button } from "./ui/button";
 import { User } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
@@ -24,7 +23,6 @@ export function Layout({ children, className, hideHeader = false, title }: Layou
   
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      {!hideHeader && <Header />}
       <main
         className={cn(
           "flex-1 container mx-auto px-4 py-6",
@@ -32,9 +30,6 @@ export function Layout({ children, className, hideHeader = false, title }: Layou
           className
         )}
       >
-        {title && (
-          <h1 className="text-2xl md:text-3xl font-bold text-green-dark mb-6">{title}</h1>
-        )}
         {children}
       </main>
 
