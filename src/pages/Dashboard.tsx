@@ -4,12 +4,58 @@ import { DataProvider } from "@/context/DataContext";
 import { SubsectionTable } from "@/components/SubsectionTable";
 import { DatePicker } from "@/components/DatePicker";
 import { Button } from "@/components/ui/button";
-import { Download, LayoutGrid } from "lucide-react";
+import { Download, LayoutGrid, User, ChevronDown, UserCircle, Settings, LogOut } from "lucide-react";
 import { useData } from "@/context/DataContext";
 import { format } from "date-fns";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const DashboardContent = () => {
   const { selectedDate, exportToCSV } = useData();
+  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const userStr = localStorage.getItem("user");
+    if (userStr) {
+      setUser(JSON.parse(userStr));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("user");
+    
+    toast({
+      title: "Sesión cerrada",
+      description: "Ha cerrado sesión exitosamente",
+    });
+    
+    navigate("/login");
+  };
+
+  const handleProfile = () => {
+    toast({
+      title: "Perfil de usuario",
+      description: "Funcionalidad en desarrollo",
+    });
+  };
+
+  const handleSettings = () => {
+    toast({
+      title: "Configuración",
+      description: "Funcionalidad en desarrollo",
+    });
+  };
   
   return (
     <div className="space-y-6">
@@ -39,6 +85,60 @@ const DashboardContent = () => {
               <Download className="h-4 w-4" />
               Exportar {selectedDate ? `(${format(selectedDate, "dd/MM/yyyy")})` : "todo"}
             </Button>
+            
+            {/* User Dropdown Menu */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white flex items-center gap-2"
+                >
+                  <User className="h-4 w-4" />
+                  <span className="hidden sm:inline">Mi Cuenta</span>
+                  <ChevronDown className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent 
+                align="end" 
+                className="w-56 bg-white border border-gray-200 shadow-lg"
+              >
+                <div className="px-3 py-2 border-b border-gray-100">
+                  <p className="text-sm font-medium text-gray-900">
+                    {user?.name || 'Usuario'}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {user?.email || 'usuario@ejemplo.com'}
+                  </p>
+                </div>
+                
+                <DropdownMenuItem 
+                  onClick={handleProfile}
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer"
+                >
+                  <UserCircle className="h-4 w-4" />
+                  Ver Perfil
+                </DropdownMenuItem>
+                
+                <DropdownMenuItem 
+                  onClick={handleSettings}
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer"
+                >
+                  <Settings className="h-4 w-4" />
+                  Configuración
+                </DropdownMenuItem>
+                
+                <DropdownMenuSeparator className="my-1 border-gray-100" />
+                
+                <DropdownMenuItem 
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 cursor-pointer"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Cerrar Sesión
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>
