@@ -353,30 +353,51 @@ const MainMenu = () => {
           </CardContent>
         </Card>
 
-        {/* Título Minimalista con Efectos Sutiles */}
-        <div className="text-center mb-12">
-          <div className="relative inline-block">
-            {/* Efecto de resplandor sutil */}
-            <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 via-green-600/30 to-green-500/20 rounded-xl blur-md opacity-60"></div>
+        {/* Título Moderno Minimalista Ultra Limpio */}
+        <div className="text-center mb-16 relative">
+          {/* Contenedor principal con diseño ultra moderno */}
+          <div className="relative max-w-2xl mx-auto">
+            {/* Fondo con gradiente sutil y glassmorphism */}
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-50/80 via-white/90 to-gray-50/80 backdrop-blur-sm rounded-3xl border border-gray-200/50 shadow-2xl shadow-gray-900/5"></div>
             
-            {/* Contenedor principal minimalista */}
-            <div className="relative bg-white border border-green-200 rounded-xl p-8 shadow-lg">
-              {/* Título principal limpio */}
-              <h1 className="text-4xl md:text-5xl font-light text-gray-800 mb-2 tracking-wide">
-                Menú Principal
+            {/* Elementos decorativos flotantes */}
+            <div className="absolute -top-4 -left-4 w-8 h-8 bg-gradient-to-br from-green-400 to-green-600 rounded-full opacity-20 animate-pulse"></div>
+            <div className="absolute -bottom-4 -right-4 w-6 h-6 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full opacity-20 animate-pulse delay-1000"></div>
+            
+            {/* Contenido principal */}
+            <div className="relative px-12 py-16">
+              {/* Título principal ultra moderno */}
+              <h1 className="text-5xl md:text-6xl font-extralight text-gray-900 mb-6 tracking-tight leading-none">
+                <span className="bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 bg-clip-text text-transparent">
+                  Menú
+                </span>
+                <br />
+                <span className="bg-gradient-to-r from-green-600 via-green-500 to-green-600 bg-clip-text text-transparent font-light">
+                  Principal
+                </span>
               </h1>
               
-              {/* Línea decorativa minimalista */}
-              <div className="w-24 h-0.5 bg-gradient-to-r from-green-400 to-green-600 mx-auto mb-3"></div>
+              {/* Línea decorativa moderna */}
+              <div className="flex items-center justify-center mb-6">
+                <div className="h-px w-16 bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+                <div className="mx-4 w-2 h-2 bg-green-500 rounded-full"></div>
+                <div className="h-px w-16 bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+              </div>
               
               {/* Subtítulo elegante */}
-              <p className="text-green-600 text-sm font-medium tracking-wider uppercase">
+              <p className="text-gray-500 text-sm font-medium tracking-[0.2em] uppercase mb-2">
                 Sistema de Gestión Agrícola
               </p>
               
-              {/* Efecto de brillo sutil en hover */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500 rounded-xl pointer-events-none"></div>
+              {/* Badge moderno */}
+              <div className="inline-flex items-center px-4 py-2 bg-green-50 border border-green-200 rounded-full">
+                <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
+                <span className="text-green-700 text-xs font-medium">Sistema Activo</span>
+              </div>
             </div>
+            
+            {/* Efecto de brillo sutil en hover */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-700 rounded-3xl pointer-events-none"></div>
           </div>
         </div>
 
