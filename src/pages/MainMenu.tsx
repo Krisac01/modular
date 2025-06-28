@@ -183,18 +183,13 @@ const MainMenu = () => {
     return `En ${days}d`;
   };
 
+  // Menú simplificado sin "Actualizar Área de trabajo"
   const menuItems = [
     {
       title: "Actualizar Ubicación",
       icon: <MapPin className="h-8 w-8" />,
       path: "/location",
       description: "Actualizar la ubicación del trabajo en campo"
-    },
-    {
-      title: "Actualizar Área de trabajo",
-      icon: <Settings className="h-8 w-8" />,
-      path: "/work-area",
-      description: "Administrar el área de trabajo actual"
     },
     {
       title: "Registrar Posesión de Insumo",
@@ -370,7 +365,8 @@ const MainMenu = () => {
           </h1>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
+        {/* Grid simplificado con 3 opciones */}
+        <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-3">
           {menuItems.map((item) => (
             <Link to={item.path} key={item.path} className="block">
               <Card className="h-full transition-all duration-200 hover:shadow-lg hover:scale-105 border-2 border-gray-100">
