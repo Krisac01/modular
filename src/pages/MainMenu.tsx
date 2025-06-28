@@ -208,7 +208,7 @@ const MainMenu = () => {
   return (
     <Layout hideHeader>
       <div className="max-w-7xl mx-auto">
-        {/* User Banner with Dropdown */}
+        {/* Header Banner Normalizado - Menú Principal */}
         <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg p-6 mb-8 text-white shadow-lg">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div className="flex items-center gap-4">
@@ -216,10 +216,10 @@ const MainMenu = () => {
                 <User className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold">
+                <h1 className="text-2xl md:text-3xl font-bold">
                   ¡Bienvenido, {user?.name || 'Usuario'}!
-                </h2>
-                <p className="text-green-100 text-sm">
+                </h1>
+                <p className="text-green-100 text-sm mt-1">
                   {user?.email || 'usuario@ejemplo.com'}
                 </p>
                 <div className="flex items-center gap-4 mt-2 text-green-100 text-sm">
