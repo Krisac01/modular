@@ -1,6 +1,8 @@
 import { Layout } from "@/components/Layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
 import { MapPin, LayoutGrid, Package, Wrench, BookOpen, Lightbulb, Bug, User, Settings, LogOut, Clock, ChevronDown, UserCircle } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -16,6 +18,7 @@ import {
 const MainMenu = () => {
   const [user, setUser] = useState<{ name: string; email: string } | null>(null);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [facialRecognitionEnabled, setFacialRecognitionEnabled] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -24,6 +27,10 @@ const MainMenu = () => {
     if (userStr) {
       setUser(JSON.parse(userStr));
     }
+
+    // Load facial recognition setting
+    const facialSetting = localStorage.getItem("facialRecognitionEnabled");
+    setFacialRecognitionEnabled(facialSetting === "true");
 
     // Update time every minute
     const timer = setInterval(() => {
@@ -56,6 +63,18 @@ const MainMenu = () => {
     toast({
       title: "Configuración",
       description: "Funcionalidad en desarrollo",
+    });
+  };
+
+  const handleFacialRecognitionToggle = (enabled: boolean) => {
+    setFacialRecognitionEnabled(enabled);
+    localStorage.setItem("facialRecognitionEnabled", enabled.toString());
+    
+    toast({
+      title: enabled ? "Reconocimiento facial activado" : "Reconocimiento facial desactivado",
+      description: enabled 
+        ? "El sistema de reconocimiento facial está ahora disponible" 
+        : "El sistema de reconocimiento facial ha sido desactivado",
     });
   };
 
@@ -193,6 +212,70 @@ const MainMenu = () => {
           </div>
         </div>
 
+        {/* Facial Recognition Control Card */}
+        <Card className="mb-8 border-2 border-purple-200 bg-gradient-to-r from-purple-50 to-blue-50">
+          <CardContent className="pt-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="bg-purple-100 rounded-full p-3">
+                  <User className="h-8 w-8 text-purple-600" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Reconocimiento Facial
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    {facialRecognitionEnabled 
+                      ? "Sistema activo - Autenticación biométrica habilitada" 
+                      : "Sistema desactivado - Funcionalidad no disponible"
+                    }
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-4">
+                <div className="flex items-center space-x-2">
+                  <Switch
+                    id="facial-recognition"
+                    checked={facialRecognitionEnabled}
+                    onCheckedChange={handleFacialRecognitionToggle}
+                    className="data-[state=checked]:bg-purple-600"
+                  />
+                  <Label 
+                    htmlFor="facial-recognition" 
+                    className="text-sm font-medium cursor-pointer"
+                  >
+                    {facialRecognitionEnabled ? "Activado" : "Desactivado"}
+                  </Label>
+                </div>
+                
+                {facialRecognitionEnabled && (
+                  <Link to="/facial-recognition">
+                    <Button 
+                      size="sm"
+                      className="bg-purple-600 hover:bg-purple-700 text-white"
+                    >
+                      Acceder
+                    </Button>
+                  </Link>
+                )}
+              </div>
+            </div>
+            
+            {facialRecognitionEnabled && (
+              <div className="mt-4 p-3 bg-white rounded-lg border border-purple-200">
+                <p className="text-xs text-purple-700">
+                  ✓ Autenticación biométrica para registro de posesión (10 min activo)
+                  <br />
+                  ✓ Trazabilidad de actividades por usuario autenticado
+                  <br />
+                  ✓ Geolocalización de registros y actividades
+                </p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
         {/* Logo and Title */}
         <div className="flex flex-col items-center mb-8">
           <img 
@@ -273,17 +356,6 @@ const MainMenu = () => {
           </Link>
         </div>
       </div>
-
-      {/* Floating Facial Recognition Button */}
-      <Link to="/facial-recognition">
-        <Button 
-          className="fixed bottom-6 right-6 h-16 w-16 rounded-full bg-purple-600 hover:bg-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 z-50 flex items-center justify-center group"
-          size="lg"
-        >
-          <User className="h-8 w-8 text-white group-hover:scale-110 transition-transform duration-200" />
-          <span className="sr-only">Reconocimiento Facial</span>
-        </Button>
-      </Link>
     </Layout>
   );
 };
