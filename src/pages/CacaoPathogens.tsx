@@ -1,4 +1,3 @@
-
 import { Layout } from "@/components/Layout";
 import { CacaoPathogenProvider } from "@/context/CacaoPathogenContext";
 import { CacaoSectionSelector } from "@/components/CacaoSectionSelector";
@@ -6,7 +5,7 @@ import { CacaoPathogenInput } from "@/components/CacaoPathogenInput";
 import { CacaoPhotoCapture } from "@/components/CacaoPhotoCapture";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { Download, Bug } from "lucide-react";
 import { useCacaoPathogen } from "@/context/CacaoPathogenContext";
 
 function CacaoPathogenContent() {
@@ -15,24 +14,31 @@ function CacaoPathogenContent() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-green-dark">
-            Control de Patógenos del Cacao
-          </h1>
-          <p className="text-gray-600 mt-2">
-            Registro y seguimiento de incidencia de patógenos en árboles de cacao
-          </p>
+      {/* Header Banner Normalizado */}
+      <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg p-6 text-white shadow-lg">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div className="flex items-center gap-4">
+            <div className="bg-white/20 rounded-full p-3">
+              <Bug className="h-8 w-8 text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold">
+                Control de Patógenos del Cacao
+              </h1>
+              <p className="text-green-100 text-sm mt-1">
+                Registro y seguimiento de incidencia de patógenos en árboles de cacao
+              </p>
+            </div>
+          </div>
+          <Button 
+            onClick={exportToCSV}
+            variant="outline" 
+            className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white flex items-center gap-2"
+          >
+            <Download className="h-4 w-4" />
+            Exportar CSV
+          </Button>
         </div>
-        <Button 
-          onClick={exportToCSV}
-          variant="outline" 
-          className="flex items-center gap-2"
-        >
-          <Download className="h-4 w-4" />
-          Exportar CSV
-        </Button>
       </div>
 
       {/* Section Selector */}

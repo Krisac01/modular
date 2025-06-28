@@ -14,28 +14,32 @@ function SupplyContent() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div className="flex items-center gap-3">
-          <Package className="h-8 w-8 text-green-medium" />
-          <div>
-            <h1 className="text-3xl font-bold text-green-dark">
-              Posesión de Insumos
-            </h1>
-            <p className="text-gray-600 mt-1">
-              Asignación y control de insumos agrícolas
-            </p>
+      {/* Header Banner Normalizado */}
+      <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg p-6 text-white shadow-lg">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div className="flex items-center gap-4">
+            <div className="bg-white/20 rounded-full p-3">
+              <Package className="h-8 w-8 text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold">
+                Posesión de Insumos
+              </h1>
+              <p className="text-green-100 text-sm mt-1">
+                Asignación y control de insumos agrícolas
+              </p>
+            </div>
           </div>
+          <Button 
+            onClick={exportToCSV}
+            variant="outline" 
+            className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white flex items-center gap-2"
+            disabled={data.records.length === 0}
+          >
+            <Download className="h-4 w-4" />
+            Exportar CSV
+          </Button>
         </div>
-        <Button 
-          onClick={exportToCSV}
-          variant="outline" 
-          className="flex items-center gap-2"
-          disabled={data.records.length === 0}
-        >
-          <Download className="h-4 w-4" />
-          Exportar CSV
-        </Button>
       </div>
 
       {/* Content */}
