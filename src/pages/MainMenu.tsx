@@ -119,62 +119,67 @@ const MainMenu = () => {
     });
   };
 
-  // Datos simulados de actividades registradas en la app
+  // Datos simulados de actividades registradas - Solo bitácora (control de plagas y patógenos)
   const registeredActivities = [
     {
       id: "1",
       type: "pathogen_record",
-      title: "Registro de Patógeno - Sección A",
-      description: "Moniliasis detectada en árbol #15",
+      title: "Patógeno - Sección A",
       user: "Juan Pérez",
-      location: "Área de Cacao - Sección A",
+      location: "Cacao A",
       timestamp: Date.now() - 1000 * 60 * 30, // 30 min ago
       severity: "high",
-      details: "Nivel de incidencia: 7/10"
+      details: "Moniliasis - Nivel 7"
     },
     {
       id: "2", 
       type: "incidence_record",
-      title: "Control de Plagas - Invernadero",
-      description: "Registro en Surco 5, Posición 3",
+      title: "Plaga - Surco 5",
       user: "María González",
-      location: "Invernadero Principal",
+      location: "Invernadero",
       timestamp: Date.now() - 1000 * 60 * 60 * 2, // 2 hours ago
       severity: "medium",
-      details: "Nivel de incidencia: 4/10"
+      details: "Posición 3 - Nivel 4"
     },
     {
       id: "3",
-      type: "supply_assignment",
-      title: "Asignación de Insumo",
-      description: "Fungicida XYZ asignado",
+      type: "pathogen_record",
+      title: "Patógeno - Sección C",
       user: "Carlos Rodríguez",
-      location: "Bodega de Insumos",
+      location: "Cacao C",
       timestamp: Date.now() - 1000 * 60 * 60 * 4, // 4 hours ago
       severity: "low",
-      details: "Dosis: 2.5 g/L para Antracnosis"
+      details: "Antracnosis - Nivel 2"
     },
     {
       id: "4",
-      type: "tool_assignment",
-      title: "Asignación de Herramienta",
-      description: "Tijeras de podar asignadas",
+      type: "incidence_record",
+      title: "Plaga - Surco 12",
       user: "Ana López",
-      location: "Área de Herramientas",
+      location: "Invernadero",
       timestamp: Date.now() - 1000 * 60 * 60 * 6, // 6 hours ago
-      severity: "low",
-      details: "Estado: Excelente - Mantenimiento al día"
+      severity: "medium",
+      details: "Posición 7 - Nivel 5"
     },
     {
       id: "5",
-      type: "location_update",
-      title: "Actualización de Ubicación",
-      description: "Cambio a Campo Abierto - Zona Norte",
+      type: "pathogen_record",
+      title: "Patógeno - Sección B",
       user: "Luis Martínez",
-      location: "Campo Abierto - Zona Norte",
+      location: "Cacao B",
       timestamp: Date.now() - 1000 * 60 * 60 * 8, // 8 hours ago
+      severity: "high",
+      details: "Escoba de bruja - Nivel 8"
+    },
+    {
+      id: "6",
+      type: "incidence_record",
+      title: "Plaga - Surco 3",
+      user: "María González",
+      location: "Invernadero",
+      timestamp: Date.now() - 1000 * 60 * 60 * 10, // 10 hours ago
       severity: "low",
-      details: "RFID: RFID006"
+      details: "Posición 1 - Nivel 1"
     }
   ];
 
@@ -228,12 +233,9 @@ const MainMenu = () => {
 
   const getActivityIcon = (type: string) => {
     switch (type) {
-      case "pathogen_record": return <Bug className="h-4 w-4" />;
-      case "incidence_record": return <LayoutGrid className="h-4 w-4" />;
-      case "supply_assignment": return <Package className="h-4 w-4" />;
-      case "tool_assignment": return <Wrench className="h-4 w-4" />;
-      case "location_update": return <MapPin className="h-4 w-4" />;
-      default: return <Clock className="h-4 w-4" />;
+      case "pathogen_record": return <Bug className="h-3 w-3" />;
+      case "incidence_record": return <LayoutGrid className="h-3 w-3" />;
+      default: return <Clock className="h-3 w-3" />;
     }
   };
 
@@ -261,8 +263,8 @@ const MainMenu = () => {
     const minutes = Math.floor(diff / (1000 * 60));
     const hours = Math.floor(diff / (1000 * 60 * 60));
     
-    if (minutes < 60) return `Hace ${minutes} min`;
-    return `Hace ${hours}h`;
+    if (minutes < 60) return `${minutes}m`;
+    return `${hours}h`;
   };
 
   const formatTimeUntil = (timestamp: number) => {
@@ -520,49 +522,40 @@ const MainMenu = () => {
 
           <CardContent>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Actividades Registradas en la App */}
+              {/* Actividades Registradas en la App - Compactas */}
               <Card className="bg-white">
-                <CardHeader className="flex flex-row items-center justify-between">
+                <CardHeader className="flex flex-row items-center justify-between pb-3">
                   <CardTitle className="text-lg flex items-center gap-2">
                     <Clock className="h-5 w-5 text-blue-600" />
                     Actividades Registradas
                   </CardTitle>
                   <Badge variant="outline" className="bg-blue-50 text-blue-700">
-                    {registeredActivities.length} registros
+                    {registeredActivities.length}
                   </Badge>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="pt-0">
                   <ScrollArea className="h-80">
-                    <div className="space-y-3">
+                    <div className="space-y-2">
                       {registeredActivities.map((activity) => (
-                        <Card key={activity.id} className={`border-l-4 ${getSeverityColor(activity.severity)}`}>
-                          <CardContent className="pt-3 pb-3">
-                            <div className="flex items-start gap-3">
-                              <div className="p-2 bg-gray-100 rounded-full">
-                                {getActivityIcon(activity.type)}
-                              </div>
+                        <div key={activity.id} className={`p-3 rounded-lg border-l-4 ${getSeverityColor(activity.severity)}`}>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2 flex-1 min-w-0">
+                              {getActivityIcon(activity.type)}
                               <div className="flex-1 min-w-0">
-                                <h4 className="font-medium text-sm mb-1">{activity.title}</h4>
-                                <p className="text-xs text-gray-600 mb-2">{activity.description}</p>
-                                <div className="flex items-center gap-2 text-xs text-gray-500">
-                                  <User className="h-3 w-3" />
+                                <h4 className="font-medium text-sm truncate">{activity.title}</h4>
+                                <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
                                   <span>{activity.user}</span>
                                   <span>•</span>
-                                  <MapPin className="h-3 w-3" />
                                   <span>{activity.location}</span>
-                                </div>
-                                <div className="flex items-center justify-between mt-2">
-                                  <span className="text-xs text-gray-500">
-                                    {formatTimeAgo(activity.timestamp)}
-                                  </span>
-                                  <span className="text-xs font-medium text-gray-700">
-                                    {activity.details}
-                                  </span>
                                 </div>
                               </div>
                             </div>
-                          </CardContent>
-                        </Card>
+                            <div className="text-right flex-shrink-0 ml-2">
+                              <div className="text-xs text-gray-500">{formatTimeAgo(activity.timestamp)}</div>
+                              <div className="text-xs font-medium text-gray-700">{activity.details}</div>
+                            </div>
+                          </div>
+                        </div>
                       ))}
                     </div>
                   </ScrollArea>
