@@ -15,6 +15,7 @@ import Tools from "./pages/Tools";
 import Location from "./pages/Location";
 import FacialRecognition from "./pages/FacialRecognition";
 import AdminPanel from "./pages/AdminPanel";
+import LocationManagement from "./pages/LocationManagement";
 import { UserProvider, useUser } from "@/context/UserContext";
 
 const queryClient = new QueryClient();
@@ -63,6 +64,11 @@ const AppRoutes = () => {
       <Route path="/admin" element={
         <ProtectedRoute requireAdmin>
           <AdminPanel />
+        </ProtectedRoute>
+      } />
+      <Route path="/admin/locations" element={
+        <ProtectedRoute requireAdmin>
+          <LocationManagement />
         </ProtectedRoute>
       } />
       

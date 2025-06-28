@@ -93,44 +93,61 @@ const AdminPanel = () => {
       icon: <Users className="h-8 w-8" />,
       path: "/admin/users",
       description: "Administrar usuarios del sistema",
-      color: "bg-blue-500"
+      color: "bg-blue-500",
+      available: false
     },
     {
       title: "Gestión de Ubicaciones",
       icon: <MapPin className="h-8 w-8" />,
       path: "/admin/locations",
       description: "Administrar ubicaciones y tags RFID",
-      color: "bg-green-500"
+      color: "bg-green-500",
+      available: true
     },
     {
       title: "Base de Datos de Insumos",
       icon: <Package className="h-8 w-8" />,
       path: "/admin/supplies-db",
       description: "Gestionar catálogo de insumos",
-      color: "bg-purple-500"
+      color: "bg-purple-500",
+      available: false
     },
     {
       title: "Base de Datos de Herramientas",
       icon: <Wrench className="h-8 w-8" />,
       path: "/admin/tools-db",
       description: "Gestionar catálogo de herramientas",
-      color: "bg-orange-500"
+      color: "bg-orange-500",
+      available: false
     },
     {
       title: "Asignación de Actividades",
       icon: <Calendar className="h-8 w-8" />,
       path: "/admin/activities",
       description: "Crear y asignar tareas a usuarios",
-      color: "bg-red-500"
+      color: "bg-red-500",
+      available: false
     },
     {
       title: "Configuración del Sistema",
       icon: <Settings className="h-8 w-8" />,
       path: "/admin/settings",
       description: "Configuraciones generales",
-      color: "bg-gray-500"
+      color: "bg-gray-500",
+      available: false
     }
   ];
+
+  const handleMenuClick = (item: typeof adminMenuItems[0]) => {
+    if (!item.available) {
+      toast({
+        title: "Funcionalidad en desarrollo",
+        description: `${item.title} estará disponible próximamente`,
+      });
+      return;
+    }
+    navigate(item.path);
+  };
 
   return (
     <Layout hideHeader>
@@ -282,17 +299,32 @@ const AdminPanel = () => {
         {/* Menú de Administración */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
           {adminMenuItems.map((item) => (
-            <Link to={item.path} key={item.path} className="block">
-              <Card className="h-full transition-all duration-200 hover:shadow-lg hover:scale-105 border-2 border-gray-100">
+            <div key={item.path} className="block">
+              <Card 
+                className={`h-full transition-all duration-200 hover:shadow-lg hover:scale-105 border-2 border-gray-100 cursor-pointer ${
+                  !item.available ? 'opacity-60' : ''
+                }`}
+                onClick={() => handleMenuClick(item)}
+              >
                 <CardContent className="pt-6 flex flex-col items-center text-center">
-                  <div className={`rounded-full p-3 mb-4 ${item.color} text-white`}>
+                  <div className={`rounded-full p-3 mb-4 ${item.color} text-white relative`}>
                     {item.icon}
+                    {item.available && (
+                      <Badge className="absolute -top-1 -right-1 bg-green-500 text-white text-xs px-1">
+                        ✓
+                      </Badge>
+                    )}
                   </div>
                   <h2 className="font-semibold text-lg mb-2">{item.title}</h2>
                   <p className="text-sm text-gray-500">{item.description}</p>
+                  {!item.available && (
+                    <Badge variant="outline" className="mt-2 text-xs">
+                      Próximamente
+                    </Badge>
+                  )}
                 </CardContent>
               </Card>
-            </Link>
+            </div>
           ))}
         </div>
 
