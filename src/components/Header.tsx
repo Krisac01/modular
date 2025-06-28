@@ -35,16 +35,21 @@ export function Header() {
   return (
     <header className="bg-green-dark text-white py-4 shadow-md">
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-between px-4">
-        <div className="flex items-center gap-3 mb-2 md:mb-0">
+        {/* Logo clickeable que lleva al menú principal */}
+        <Link 
+          to="/menu" 
+          className="flex items-center gap-3 mb-2 md:mb-0 hover:opacity-80 transition-opacity duration-200"
+        >
           <img 
             src="/lovable-uploads/1b34c799-c8d6-481c-a574-7fcafc61c176.png" 
             alt="Modular Agrosolutions" 
-            className="h-9 w-9"
+            className="h-9 w-9 cursor-pointer"
           />
-          <h1 className="font-semibold text-lg md:text-xl">
+          <h1 className="font-semibold text-lg md:text-xl cursor-pointer">
             Modular Agrosolutions
           </h1>
-        </div>
+        </Link>
+        
         <div className="flex flex-col md:flex-row items-center gap-4">
           <nav>
             <ul className="flex space-x-6 text-sm md:text-base">
