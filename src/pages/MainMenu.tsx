@@ -22,7 +22,8 @@ import {
   CheckCircle,
   Timer,
   Target,
-  Calendar
+  Calendar,
+  Sparkles
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -353,16 +354,57 @@ const MainMenu = () => {
           </CardContent>
         </Card>
 
-        {/* Logo and Title */}
-        <div className="flex flex-col items-center mb-8">
-          <img 
-            src="/lovable-uploads/1b34c799-c8d6-481c-a574-7fcafc61c176.png" 
-            alt="Modular Agrosolutions" 
-            className="h-20 w-20 mb-4"
-          />
-          <h1 className="text-3xl font-bold text-green-dark text-center">
-            Menú Principal
-          </h1>
+        {/* Título Estilizado del Menú Principal */}
+        <div className="text-center mb-12">
+          <div className="relative inline-block">
+            {/* Efecto de brillo de fondo */}
+            <div className="absolute inset-0 bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 rounded-2xl blur-lg opacity-20 animate-pulse"></div>
+            
+            {/* Contenedor principal del título */}
+            <div className="relative bg-gradient-to-r from-green-600 via-green-700 to-green-800 rounded-2xl p-8 shadow-2xl border border-green-200">
+              {/* Decoración superior */}
+              <div className="flex justify-center mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-green-300 rounded-full animate-pulse"></div>
+                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse delay-100"></div>
+                  <div className="w-3 h-3 bg-green-300 rounded-full animate-pulse delay-200"></div>
+                </div>
+              </div>
+              
+              {/* Título principal con efectos */}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white text-center relative">
+                <span className="relative z-10 bg-gradient-to-r from-white via-green-100 to-white bg-clip-text text-transparent">
+                  Menú Principal
+                </span>
+                
+                {/* Efecto de resplandor */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-20 blur-sm"></div>
+              </h1>
+              
+              {/* Subtítulo elegante */}
+              <div className="mt-4 flex items-center justify-center gap-2">
+                <Sparkles className="h-5 w-5 text-green-200 animate-pulse" />
+                <p className="text-green-100 text-lg font-medium tracking-wide">
+                  Sistema de Gestión Agrícola
+                </p>
+                <Sparkles className="h-5 w-5 text-green-200 animate-pulse" />
+              </div>
+              
+              {/* Línea decorativa */}
+              <div className="mt-6 flex justify-center">
+                <div className="w-32 h-1 bg-gradient-to-r from-transparent via-green-300 to-transparent rounded-full"></div>
+              </div>
+              
+              {/* Decoración inferior */}
+              <div className="flex justify-center mt-4">
+                <div className="flex items-center gap-1">
+                  <div className="w-1 h-1 bg-green-300 rounded-full"></div>
+                  <div className="w-2 h-2 bg-green-200 rounded-full"></div>
+                  <div className="w-1 h-1 bg-green-300 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Grid simplificado con 3 opciones */}
