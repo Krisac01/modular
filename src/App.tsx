@@ -14,7 +14,6 @@ import Supplies from "./pages/Supplies";
 import Tools from "./pages/Tools";
 import Location from "./pages/Location";
 import FacialRecognition from "./pages/FacialRecognition";
-import Logbook from "./pages/Logbook";
 
 const queryClient = new QueryClient();
 
@@ -108,7 +107,7 @@ const App = () => {
             } />
             <Route path="/logbook" element={
               <ProtectedRoute>
-                <Logbook />
+                <MainMenu />
               </ProtectedRoute>
             } />
             <Route path="/cacao-pathogens" element={
