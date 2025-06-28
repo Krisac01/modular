@@ -12,7 +12,6 @@ import {
   Package, 
   Wrench, 
   BookOpen, 
-  Lightbulb, 
   Bug, 
   User, 
   Settings, 
@@ -21,11 +20,9 @@ import {
   ChevronDown, 
   UserCircle,
   CheckCircle,
-  AlertCircle,
   Timer,
   Target,
-  Calendar,
-  Download
+  Calendar
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -210,12 +207,6 @@ const MainMenu = () => {
       icon: <Wrench className="h-8 w-8" />,
       path: "/tools",
       description: "Registro de herramientas adquiridas o utilizadas"
-    },
-    {
-      title: "Alertas y Recomendaciones AI",
-      icon: <Lightbulb className="h-8 w-8" />,
-      path: "/ai-alerts",
-      description: "Análisis inteligente de datos con AI"
     }
   ];
 
@@ -379,7 +370,7 @@ const MainMenu = () => {
           </h1>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
           {menuItems.map((item) => (
             <Link to={item.path} key={item.path} className="block">
               <Card className="h-full transition-all duration-200 hover:shadow-lg hover:scale-105 border-2 border-gray-100">
