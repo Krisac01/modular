@@ -119,54 +119,6 @@ const MainMenu = () => {
     });
   };
 
-  // Solo las dos actividades registradas que están implementadas
-  const registeredActivities = [
-    {
-      id: "1",
-      type: "pathogen_record",
-      title: "Control de Patógenos - Cacao",
-      description: "Sección A - Moniliasis detectada",
-      user: "Juan Pérez",
-      location: "Área de Cacao - Sección A",
-      timestamp: Date.now() - 1000 * 60 * 30, // 30 min ago
-      severity: "high",
-      details: "Árbol 15 - Nivel 7"
-    },
-    {
-      id: "2", 
-      type: "incidence_record",
-      title: "Control de Plagas - Invernadero",
-      description: "Surco 5 - Incidencia registrada",
-      user: "María González",
-      location: "Invernadero Principal",
-      timestamp: Date.now() - 1000 * 60 * 60 * 2, // 2 hours ago
-      severity: "medium",
-      details: "Posición 3 - Nivel 4"
-    },
-    {
-      id: "3",
-      type: "pathogen_record",
-      title: "Control de Patógenos - Cacao",
-      description: "Sección C - Antracnosis identificada",
-      user: "Carlos Rodríguez",
-      location: "Área de Cacao - Sección C",
-      timestamp: Date.now() - 1000 * 60 * 60 * 4, // 4 hours ago
-      severity: "low",
-      details: "Árbol 8 - Nivel 2"
-    },
-    {
-      id: "4",
-      type: "incidence_record",
-      title: "Control de Plagas - Invernadero",
-      description: "Surco 12 - Nueva incidencia",
-      user: "Ana López",
-      location: "Invernadero Principal",
-      timestamp: Date.now() - 1000 * 60 * 60 * 6, // 6 hours ago
-      severity: "medium",
-      details: "Posición 7 - Nivel 5"
-    }
-  ];
-
   // Datos simulados de actividades asignadas al usuario
   const assignedActivities = [
     {
@@ -215,23 +167,6 @@ const MainMenu = () => {
     }
   ];
 
-  const getActivityIcon = (type: string) => {
-    switch (type) {
-      case "pathogen_record": return <Bug className="h-4 w-4 text-orange-600" />;
-      case "incidence_record": return <LayoutGrid className="h-4 w-4 text-blue-600" />;
-      default: return <Clock className="h-4 w-4" />;
-    }
-  };
-
-  const getSeverityColor = (severity: string) => {
-    switch (severity) {
-      case "high": return "bg-red-100 text-red-800 border-red-200";
-      case "medium": return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "low": return "bg-green-100 text-green-800 border-green-200";
-      default: return "bg-gray-100 text-gray-800 border-gray-200";
-    }
-  };
-
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "high": return "bg-red-500";
@@ -239,16 +174,6 @@ const MainMenu = () => {
       case "low": return "bg-green-500";
       default: return "bg-gray-500";
     }
-  };
-
-  const formatTimeAgo = (timestamp: number) => {
-    const now = Date.now();
-    const diff = now - timestamp;
-    const minutes = Math.floor(diff / (1000 * 60));
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    
-    if (minutes < 60) return `${minutes}m`;
-    return `${hours}h`;
   };
 
   const formatTimeUntil = (timestamp: number) => {
@@ -470,7 +395,7 @@ const MainMenu = () => {
           ))}
         </div>
 
-        {/* Bitácora electrónica con las dos actividades implementadas */}
+        {/* Bitácora electrónica con actividades asignadas */}
         <Card className="mt-8 bg-green-50 border-2 border-green-100">
           <CardHeader className="text-center">
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -505,138 +430,83 @@ const MainMenu = () => {
           </CardHeader>
 
           <CardContent>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Actividades Registradas - Solo las dos implementadas */}
-              <Card className="bg-white">
-                <CardHeader className="flex flex-row items-center justify-between pb-3">
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <Clock className="h-5 w-5 text-blue-600" />
-                    Actividades Registradas
-                  </CardTitle>
-                  <Badge variant="outline" className="bg-blue-50 text-blue-700">
-                    {registeredActivities.length}
-                  </Badge>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <ScrollArea className="h-80">
-                    <div className="space-y-3">
-                      {registeredActivities.map((activity) => (
-                        <Card key={activity.id} className={`border-l-4 ${getSeverityColor(activity.severity)}`}>
-                          <CardContent className="pt-3 pb-3">
-                            <div className="flex items-center gap-3">
-                              {getActivityIcon(activity.type)}
-                              <div className="flex-1 min-w-0">
+            {/* Solo Actividades Asignadas al Usuario */}
+            <Card className="bg-white">
+              <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Target className="h-5 w-5 text-orange-600" />
+                  Actividades Asignadas
+                </CardTitle>
+                <Badge variant="outline" className="bg-orange-50 text-orange-700">
+                  {assignedActivities.filter(a => a.status === 'pending').length} pendientes
+                </Badge>
+              </CardHeader>
+              <CardContent>
+                <ScrollArea className="h-80">
+                  <div className="space-y-3">
+                    {assignedActivities.map((activity) => (
+                      <Card key={activity.id} className="border-l-4 border-l-orange-400">
+                        <CardContent className="pt-3 pb-3">
+                          <div className="flex items-start gap-3">
+                            <div className={`w-3 h-3 rounded-full mt-2 ${getPriorityColor(activity.priority)}`}></div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between mb-1">
                                 <h4 className="font-medium text-sm">{activity.title}</h4>
-                                <p className="text-xs text-gray-600 mt-1">{activity.description}</p>
-                                <div className="flex items-center justify-between mt-2">
-                                  <div className="flex items-center gap-2 text-xs text-gray-500">
-                                    <User className="h-3 w-3" />
-                                    <span>{activity.user}</span>
-                                    <span>•</span>
-                                    <MapPin className="h-3 w-3" />
-                                    <span>{activity.location}</span>
-                                  </div>
-                                  <div className="text-xs text-gray-500">
-                                    {formatTimeAgo(activity.timestamp)}
-                                  </div>
+                                <Badge 
+                                  variant="outline" 
+                                  className={`text-xs ${
+                                    activity.priority === 'high' ? 'border-red-300 text-red-700' :
+                                    activity.priority === 'medium' ? 'border-yellow-300 text-yellow-700' :
+                                    'border-green-300 text-green-700'
+                                  }`}
+                                >
+                                  {activity.priority === 'high' ? 'Alta' : 
+                                   activity.priority === 'medium' ? 'Media' : 'Baja'}
+                                </Badge>
+                              </div>
+                              <p className="text-xs text-gray-600 mb-2">{activity.description}</p>
+                              <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
+                                <User className="h-3 w-3" />
+                                <span>Por: {activity.assignedBy}</span>
+                                <span>•</span>
+                                <MapPin className="h-3 w-3" />
+                                <span>{activity.location}</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2 text-xs text-gray-500">
+                                  <Timer className="h-3 w-3" />
+                                  <span>{activity.estimatedTime}</span>
                                 </div>
-                                <div className="text-xs font-medium text-gray-700 mt-1">
-                                  {activity.details}
+                                <div className="flex items-center gap-2 text-xs">
+                                  <Calendar className="h-3 w-3" />
+                                  <span className={`font-medium ${
+                                    activity.dueDate < Date.now() + 1000 * 60 * 60 * 4 ? 'text-red-600' : 'text-gray-600'
+                                  }`}>
+                                    {formatTimeUntil(activity.dueDate)}
+                                  </span>
                                 </div>
                               </div>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  </ScrollArea>
-                  <div className="mt-4 pt-4 border-t">
-                    <Button variant="outline" size="sm" className="w-full flex items-center gap-2">
-                      <Download className="h-4 w-4" />
-                      Exportar Registros
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Actividades Asignadas al Usuario */}
-              <Card className="bg-white">
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <Target className="h-5 w-5 text-orange-600" />
-                    Actividades Asignadas
-                  </CardTitle>
-                  <Badge variant="outline" className="bg-orange-50 text-orange-700">
-                    {assignedActivities.filter(a => a.status === 'pending').length} pendientes
-                  </Badge>
-                </CardHeader>
-                <CardContent>
-                  <ScrollArea className="h-80">
-                    <div className="space-y-3">
-                      {assignedActivities.map((activity) => (
-                        <Card key={activity.id} className="border-l-4 border-l-orange-400">
-                          <CardContent className="pt-3 pb-3">
-                            <div className="flex items-start gap-3">
-                              <div className={`w-3 h-3 rounded-full mt-2 ${getPriorityColor(activity.priority)}`}></div>
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center justify-between mb-1">
-                                  <h4 className="font-medium text-sm">{activity.title}</h4>
-                                  <Badge 
-                                    variant="outline" 
-                                    className={`text-xs ${
-                                      activity.priority === 'high' ? 'border-red-300 text-red-700' :
-                                      activity.priority === 'medium' ? 'border-yellow-300 text-yellow-700' :
-                                      'border-green-300 text-green-700'
-                                    }`}
-                                  >
-                                    {activity.priority === 'high' ? 'Alta' : 
-                                     activity.priority === 'medium' ? 'Media' : 'Baja'}
-                                  </Badge>
-                                </div>
-                                <p className="text-xs text-gray-600 mb-2">{activity.description}</p>
-                                <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
-                                  <User className="h-3 w-3" />
-                                  <span>Por: {activity.assignedBy}</span>
-                                  <span>•</span>
-                                  <MapPin className="h-3 w-3" />
-                                  <span>{activity.location}</span>
-                                </div>
-                                <div className="flex items-center justify-between">
-                                  <div className="flex items-center gap-2 text-xs text-gray-500">
-                                    <Timer className="h-3 w-3" />
-                                    <span>{activity.estimatedTime}</span>
-                                  </div>
-                                  <div className="flex items-center gap-2 text-xs">
-                                    <Calendar className="h-3 w-3" />
-                                    <span className={`font-medium ${
-                                      activity.dueDate < Date.now() + 1000 * 60 * 60 * 4 ? 'text-red-600' : 'text-gray-600'
-                                    }`}>
-                                      {formatTimeUntil(activity.dueDate)}
-                                    </span>
-                                  </div>
-                                </div>
-                                <div className="mt-2">
-                                  <Button size="sm" variant="outline" className="w-full text-xs">
-                                    <CheckCircle className="h-3 w-3 mr-1" />
-                                    Marcar como Completada
-                                  </Button>
-                                </div>
+                              <div className="mt-2">
+                                <Button size="sm" variant="outline" className="w-full text-xs">
+                                  <CheckCircle className="h-3 w-3 mr-1" />
+                                  Marcar como Completada
+                                </Button>
                               </div>
                             </div>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  </ScrollArea>
-                  <div className="mt-4 pt-4 border-t">
-                    <Button variant="outline" size="sm" className="w-full flex items-center gap-2">
-                      <Calendar className="h-4 w-4" />
-                      Ver Todas las Asignaciones
-                    </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
                   </div>
-                </CardContent>
-              </Card>
-            </div>
+                </ScrollArea>
+                <div className="mt-4 pt-4 border-t">
+                  <Button variant="outline" size="sm" className="w-full flex items-center gap-2">
+                    <Calendar className="h-4 w-4" />
+                    Ver Todas las Asignaciones
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           </CardContent>
         </Card>
       </div>
