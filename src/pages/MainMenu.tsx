@@ -119,24 +119,26 @@ const MainMenu = () => {
     });
   };
 
-  // Datos simulados de actividades registradas - Solo bitácora (control de plagas y patógenos)
+  // Solo las dos actividades registradas que están implementadas
   const registeredActivities = [
     {
       id: "1",
       type: "pathogen_record",
-      title: "Patógeno - Sección A",
+      title: "Control de Patógenos - Cacao",
+      description: "Sección A - Moniliasis detectada",
       user: "Juan Pérez",
-      location: "Cacao A",
+      location: "Área de Cacao - Sección A",
       timestamp: Date.now() - 1000 * 60 * 30, // 30 min ago
       severity: "high",
-      details: "Moniliasis - Nivel 7"
+      details: "Árbol 15 - Nivel 7"
     },
     {
       id: "2", 
       type: "incidence_record",
-      title: "Plaga - Surco 5",
+      title: "Control de Plagas - Invernadero",
+      description: "Surco 5 - Incidencia registrada",
       user: "María González",
-      location: "Invernadero",
+      location: "Invernadero Principal",
       timestamp: Date.now() - 1000 * 60 * 60 * 2, // 2 hours ago
       severity: "medium",
       details: "Posición 3 - Nivel 4"
@@ -144,42 +146,24 @@ const MainMenu = () => {
     {
       id: "3",
       type: "pathogen_record",
-      title: "Patógeno - Sección C",
+      title: "Control de Patógenos - Cacao",
+      description: "Sección C - Antracnosis identificada",
       user: "Carlos Rodríguez",
-      location: "Cacao C",
+      location: "Área de Cacao - Sección C",
       timestamp: Date.now() - 1000 * 60 * 60 * 4, // 4 hours ago
       severity: "low",
-      details: "Antracnosis - Nivel 2"
+      details: "Árbol 8 - Nivel 2"
     },
     {
       id: "4",
       type: "incidence_record",
-      title: "Plaga - Surco 12",
+      title: "Control de Plagas - Invernadero",
+      description: "Surco 12 - Nueva incidencia",
       user: "Ana López",
-      location: "Invernadero",
+      location: "Invernadero Principal",
       timestamp: Date.now() - 1000 * 60 * 60 * 6, // 6 hours ago
       severity: "medium",
       details: "Posición 7 - Nivel 5"
-    },
-    {
-      id: "5",
-      type: "pathogen_record",
-      title: "Patógeno - Sección B",
-      user: "Luis Martínez",
-      location: "Cacao B",
-      timestamp: Date.now() - 1000 * 60 * 60 * 8, // 8 hours ago
-      severity: "high",
-      details: "Escoba de bruja - Nivel 8"
-    },
-    {
-      id: "6",
-      type: "incidence_record",
-      title: "Plaga - Surco 3",
-      user: "María González",
-      location: "Invernadero",
-      timestamp: Date.now() - 1000 * 60 * 60 * 10, // 10 hours ago
-      severity: "low",
-      details: "Posición 1 - Nivel 1"
     }
   ];
 
@@ -233,9 +217,9 @@ const MainMenu = () => {
 
   const getActivityIcon = (type: string) => {
     switch (type) {
-      case "pathogen_record": return <Bug className="h-3 w-3" />;
-      case "incidence_record": return <LayoutGrid className="h-3 w-3" />;
-      default: return <Clock className="h-3 w-3" />;
+      case "pathogen_record": return <Bug className="h-4 w-4 text-orange-600" />;
+      case "incidence_record": return <LayoutGrid className="h-4 w-4 text-blue-600" />;
+      default: return <Clock className="h-4 w-4" />;
     }
   };
 
@@ -486,7 +470,7 @@ const MainMenu = () => {
           ))}
         </div>
 
-        {/* Bitácora electrónica expandida con dos secciones */}
+        {/* Bitácora electrónica con las dos actividades implementadas */}
         <Card className="mt-8 bg-green-50 border-2 border-green-100">
           <CardHeader className="text-center">
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -498,12 +482,12 @@ const MainMenu = () => {
                   Bitácora electrónica/Registro de actividad
                 </CardTitle>
                 <p className="text-sm text-gray-600 mt-1">
-                  Registro de actividades, incluyendo control de plagas y patógenos
+                  Registro de actividades de control de plagas y patógenos
                 </p>
               </div>
             </div>
 
-            {/* Sub-options para acceso directo */}
+            {/* Sub-options para acceso directo a las dos actividades implementadas */}
             <div className="flex justify-center gap-4 mb-6">
               <Link to="/data">
                 <Button variant="outline" className="flex items-center gap-2">
@@ -522,7 +506,7 @@ const MainMenu = () => {
 
           <CardContent>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Actividades Registradas en la App - Compactas */}
+              {/* Actividades Registradas - Solo las dos implementadas */}
               <Card className="bg-white">
                 <CardHeader className="flex flex-row items-center justify-between pb-3">
                   <CardTitle className="text-lg flex items-center gap-2">
@@ -535,27 +519,34 @@ const MainMenu = () => {
                 </CardHeader>
                 <CardContent className="pt-0">
                   <ScrollArea className="h-80">
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       {registeredActivities.map((activity) => (
-                        <div key={activity.id} className={`p-3 rounded-lg border-l-4 ${getSeverityColor(activity.severity)}`}>
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2 flex-1 min-w-0">
+                        <Card key={activity.id} className={`border-l-4 ${getSeverityColor(activity.severity)}`}>
+                          <CardContent className="pt-3 pb-3">
+                            <div className="flex items-center gap-3">
                               {getActivityIcon(activity.type)}
                               <div className="flex-1 min-w-0">
-                                <h4 className="font-medium text-sm truncate">{activity.title}</h4>
-                                <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
-                                  <span>{activity.user}</span>
-                                  <span>•</span>
-                                  <span>{activity.location}</span>
+                                <h4 className="font-medium text-sm">{activity.title}</h4>
+                                <p className="text-xs text-gray-600 mt-1">{activity.description}</p>
+                                <div className="flex items-center justify-between mt-2">
+                                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                                    <User className="h-3 w-3" />
+                                    <span>{activity.user}</span>
+                                    <span>•</span>
+                                    <MapPin className="h-3 w-3" />
+                                    <span>{activity.location}</span>
+                                  </div>
+                                  <div className="text-xs text-gray-500">
+                                    {formatTimeAgo(activity.timestamp)}
+                                  </div>
+                                </div>
+                                <div className="text-xs font-medium text-gray-700 mt-1">
+                                  {activity.details}
                                 </div>
                               </div>
                             </div>
-                            <div className="text-right flex-shrink-0 ml-2">
-                              <div className="text-xs text-gray-500">{formatTimeAgo(activity.timestamp)}</div>
-                              <div className="text-xs font-medium text-gray-700">{activity.details}</div>
-                            </div>
-                          </div>
-                        </div>
+                          </CardContent>
+                        </Card>
                       ))}
                     </div>
                   </ScrollArea>
