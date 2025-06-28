@@ -412,18 +412,24 @@ const MainMenu = () => {
               </div>
             </div>
 
-            {/* Sub-options para acceso directo a las dos actividades implementadas */}
-            <div className="flex justify-center gap-4 mb-6">
-              <Link to="/data">
-                <Button variant="outline" className="flex items-center gap-2">
-                  <LayoutGrid className="h-4 w-4" />
-                  Control de Plagas - Invernadero
+            {/* Enlaces de bitácora en vertical */}
+            <div className="flex flex-col items-center gap-3 mb-6 max-w-md mx-auto">
+              <Link to="/data" className="w-full">
+                <Button variant="outline" className="w-full flex items-center gap-2 justify-start px-4 py-3 h-auto">
+                  <LayoutGrid className="h-5 w-5" />
+                  <div className="text-left">
+                    <div className="font-medium">Control de Plagas - Invernadero</div>
+                    <div className="text-xs text-gray-500">Registro de incidencia en surcos</div>
+                  </div>
                 </Button>
               </Link>
-              <Link to="/cacao-pathogens">
-                <Button variant="outline" className="flex items-center gap-2">
-                  <Bug className="h-4 w-4" />
-                  Control de Patógenos - Cacao
+              <Link to="/cacao-pathogens" className="w-full">
+                <Button variant="outline" className="w-full flex items-center gap-2 justify-start px-4 py-3 h-auto">
+                  <Bug className="h-5 w-5" />
+                  <div className="text-left">
+                    <div className="font-medium">Control de Patógenos - Cacao</div>
+                    <div className="text-xs text-gray-500">Registro de patógenos en árboles</div>
+                  </div>
                 </Button>
               </Link>
             </div>
