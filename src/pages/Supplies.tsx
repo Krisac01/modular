@@ -3,12 +3,12 @@ import { SupplyProvider } from "@/context/SupplyContext";
 import { SupplyInput } from "@/components/SupplyInput";
 import { SupplyList } from "@/components/SupplyList";
 import { Button } from "@/components/ui/button";
-import { Download, Package, User, ChevronDown, UserCircle, Settings, LogOut } from "lucide-react";
+import { Download, Package, User, ChevronDown, UserCircle, Settings, LogOut, Home } from "lucide-react";
 import { useSupply } from "@/context/SupplyContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import {
   DropdownMenu,
@@ -86,6 +86,18 @@ function SupplyContent() {
               <Download className="h-4 w-4" />
               Exportar CSV
             </Button>
+            
+            {/* Botón Inicio */}
+            <Link to="/menu">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white flex items-center gap-2"
+              >
+                <Home className="h-4 w-4" />
+                <span className="hidden sm:inline">Inicio</span>
+              </Button>
+            </Link>
             
             {/* User Dropdown Menu */}
             <DropdownMenu>

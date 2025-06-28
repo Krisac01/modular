@@ -4,11 +4,11 @@ import { DataProvider } from "@/context/DataContext";
 import { SubsectionTable } from "@/components/SubsectionTable";
 import { DatePicker } from "@/components/DatePicker";
 import { Button } from "@/components/ui/button";
-import { Download, LayoutGrid, User, ChevronDown, UserCircle, Settings, LogOut } from "lucide-react";
+import { Download, LayoutGrid, User, ChevronDown, UserCircle, Settings, LogOut, Home } from "lucide-react";
 import { useData } from "@/context/DataContext";
 import { format } from "date-fns";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import {
   DropdownMenu,
@@ -85,6 +85,18 @@ const DashboardContent = () => {
               <Download className="h-4 w-4" />
               Exportar {selectedDate ? `(${format(selectedDate, "dd/MM/yyyy")})` : "todo"}
             </Button>
+            
+            {/* Botón Inicio */}
+            <Link to="/menu">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white flex items-center gap-2"
+              >
+                <Home className="h-4 w-4" />
+                <span className="hidden sm:inline">Inicio</span>
+              </Button>
+            </Link>
             
             {/* User Dropdown Menu */}
             <DropdownMenu>

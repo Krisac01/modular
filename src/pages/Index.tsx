@@ -1,11 +1,11 @@
 import { Layout } from "@/components/Layout";
 import { DataCollection } from "@/components/DataCollection";
 import { DataProvider } from "@/context/DataContext";
-import { LayoutGrid, User, ChevronDown, UserCircle, Settings, LogOut } from "lucide-react";
+import { LayoutGrid, User, ChevronDown, UserCircle, Settings, LogOut, Home } from "lucide-react";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import {
   DropdownMenu,
@@ -81,6 +81,18 @@ const Index = () => {
                     Fecha: {formattedDate}
                   </div>
                 </div>
+                
+                {/* Botón Inicio */}
+                <Link to="/menu">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white flex items-center gap-2"
+                  >
+                    <Home className="h-4 w-4" />
+                    <span className="hidden sm:inline">Inicio</span>
+                  </Button>
+                </Link>
                 
                 {/* User Dropdown Menu */}
                 <DropdownMenu>
