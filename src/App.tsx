@@ -24,7 +24,11 @@ import ToolDatabase from "./pages/ToolDatabase";
 import SystemSettings from "./pages/SystemSettings";
 import Reports from "./pages/Reports";
 import AIAlerts from "./pages/AIAlerts";
+import Pricing from "./pages/Pricing";
+import CheckoutSuccess from "./pages/CheckoutSuccess";
+import CheckoutCanceled from "./pages/CheckoutCanceled";
 import { UserProvider, useUser } from "@/context/UserContext";
+import { SubscriptionProvider } from "@/context/SubscriptionContext";
 
 const queryClient = new QueryClient();
 
@@ -161,6 +165,21 @@ const AppRoutes = () => {
           <UserProfile />
         </ProtectedRoute>
       } />
+      <Route path="/pricing" element={
+        <ProtectedRoute>
+          <Pricing />
+        </ProtectedRoute>
+      } />
+      <Route path="/checkout/success" element={
+        <ProtectedRoute>
+          <CheckoutSuccess />
+        </ProtectedRoute>
+      } />
+      <Route path="/checkout/canceled" element={
+        <ProtectedRoute>
+          <CheckoutCanceled />
+        </ProtectedRoute>
+      } />
       
       {/* Rutas legacy para compatibilidad */}
       <Route path="/work-area" element={
@@ -189,13 +208,15 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <UserProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <AppRoutes />
-          </BrowserRouter>
-        </TooltipProvider>
+        <SubscriptionProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <AppRoutes />
+            </BrowserRouter>
+          </TooltipProvider>
+        </SubscriptionProvider>
       </UserProvider>
     </QueryClientProvider>
   );

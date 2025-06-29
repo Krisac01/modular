@@ -20,15 +20,19 @@ import {
   Camera, 
   Upload, 
   X,
-  Key
+  Key,
+  CreditCard
 } from "lucide-react";
 import { useUser } from "@/context/UserContext";
+import { useSubscription } from "@/context/SubscriptionContext";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import { Link } from "react-router-dom";
 
 export function UserProfile() {
   const { currentUser, isAdmin } = useUser();
+  const { subscription, isActive } = useSubscription();
   const [isEditing, setIsEditing] = useState(false);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   
@@ -86,6 +90,24 @@ export function UserProfile() {
   
   const handleChangePassword = () => {
     toast.success("Se ha enviado un enlace para cambiar la contraseña a su correo electrónico");
+  };
+
+  const formatSubscriptionStatus = (status: string | null) => {
+    if (!status) return "No disponible";
+    
+    const statusMap = {
+      'not_started': 'No iniciada',
+      'incomplete': 'Incompleta',
+      'incomplete_expired': 'Expirada',
+      'trialing': 'Periodo de prueba',
+      'active': 'Activa',
+      'past_due': 'Pago pendiente',
+      'canceled': 'Cancelada',
+      'unpaid': 'No pagada',
+      'paused': 'Pausada'
+    };
+    
+    return statusMap[status as keyof typeof statusMap] || status;
   };
   
   return (
@@ -317,6 +339,80 @@ export function UserProfile() {
                   </div>
                 </div>
               )}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+      
+      {/* Subscription Card */}
+      <Card className={isActive ? "border-green-200 bg-green-50" : "border-amber-200 bg-amber-50"}>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-gray-800">
+            <CreditCard className="h-5 w-5" />
+            Información de Suscripción
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-white p-3 rounded-lg border border-gray-200">
+                <h3 className="font-medium text-gray-800 mb-1">Estado</h3>
+                <div className="flex items-center gap-2">
+                  {isActive ? (
+                    <Badge className="bg-green-500 text-white">Activa</Badge>
+                  ) : (
+                    <Badge variant="outline" className="border-gray-300 text-gray-600">Sin suscripción</Badge>
+                  )}
+                  <span className="text-sm text-gray-600">
+                    {formatSubscriptionStatus(subscription?.subscription_status || null)}
+                  </span>
+                </div>
+              </div>
+              
+              {isActive && (
+                <div className="bg-white p-3 rounded-lg border border-gray-200">
+                  <h3 className="font-medium text-gray-800 mb-1">Periodo Actual</h3>
+                  <p className="text-sm text-gray-600">
+                    {subscription?.current_period_start ? (
+                      <>
+                        <span>Desde: {format(new Date(subscription.current_period_start * 1000), "dd/MM/yyyy", { locale: es })}</span>
+                        <br />
+                        <span>Hasta: {format(new Date(subscription.current_period_end! * 1000), "dd/MM/yyyy", { locale: es })}</span>
+                      </>
+                    ) : (
+                      "Información no disponible"
+                    )}
+                  </p>
+                </div>
+              )}
+              
+              {isActive && subscription?.payment_method_brand && (
+                <div className="bg-white p-3 rounded-lg border border-gray-200">
+                  <h3 className="font-medium text-gray-800 mb-1">Método de Pago</h3>
+                  <p className="text-sm text-gray-600">
+                    {subscription.payment_method_brand.toUpperCase()} •••• {subscription.payment_method_last4}
+                  </p>
+                </div>
+              )}
+              
+              <div className="bg-white p-3 rounded-lg border border-gray-200">
+                <h3 className="font-medium text-gray-800 mb-1">Plan</h3>
+                <p className="text-sm text-gray-600">
+                  {isActive ? "Suscripción anual Agrosolutions" : "Sin plan activo"}
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex justify-end">
+              <Link to="/pricing">
+                <Button 
+                  variant={isActive ? "outline" : "default"}
+                  className={isActive ? "" : "bg-green-600 hover:bg-green-700"}
+                >
+                  <CreditCard className="h-4 w-4 mr-2" />
+                  {isActive ? "Gestionar Suscripción" : "Suscribirse"}
+                </Button>
+              </Link>
             </div>
           </div>
         </CardContent>

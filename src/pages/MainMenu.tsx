@@ -23,7 +23,8 @@ import {
   Timer,
   Target,
   Calendar,
-  Shield
+  Shield,
+  CreditCard
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -32,6 +33,7 @@ import { es } from "date-fns/locale";
 import { useUser } from "@/context/UserContext";
 import { ActivityProvider, useActivity } from "@/context/ActivityContext";
 import { UserActivities } from "@/components/UserActivities";
+import { SubscriptionBanner } from "@/components/SubscriptionBanner";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -214,6 +216,16 @@ function MainMenuContent() {
                 Configuración
               </DropdownMenuItem>
               
+              <DropdownMenuItem asChild>
+                <Link 
+                  to="/pricing"
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer"
+                >
+                  <CreditCard className="h-4 w-4" />
+                  Planes y Precios
+                </Link>
+              </DropdownMenuItem>
+              
               {isAdmin && (
                 <>
                   <DropdownMenuSeparator className="my-1 border-gray-100" />
@@ -241,6 +253,11 @@ function MainMenuContent() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+      </div>
+
+      {/* Subscription Banner */}
+      <div className="mb-8">
+        <SubscriptionBanner />
       </div>
 
       {/* Facial Recognition Control Card */}
