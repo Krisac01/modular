@@ -22,6 +22,8 @@ import ActivityAssignment from "./pages/ActivityAssignment";
 import SupplyDatabase from "./pages/SupplyDatabase";
 import ToolDatabase from "./pages/ToolDatabase";
 import SystemSettings from "./pages/SystemSettings";
+import Reports from "./pages/Reports";
+import AIAlerts from "./pages/AIAlerts";
 import { UserProvider, useUser } from "@/context/UserContext";
 
 const queryClient = new QueryClient();
@@ -100,6 +102,16 @@ const AppRoutes = () => {
       <Route path="/admin/settings" element={
         <ProtectedRoute requireAdmin>
           <SystemSettings />
+        </ProtectedRoute>
+      } />
+      <Route path="/admin/reports" element={
+        <ProtectedRoute requireAdmin>
+          <Reports />
+        </ProtectedRoute>
+      } />
+      <Route path="/admin/ai-alerts" element={
+        <ProtectedRoute requireAdmin>
+          <AIAlerts />
         </ProtectedRoute>
       } />
       

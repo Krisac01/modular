@@ -2,7 +2,7 @@ import { Layout } from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Settings, Users, MapPin, Package, Wrench, Calendar, Database, Shield, Activity, BarChart3, User, ChevronDown, UserCircle, LogOut, Home, PenTool as Tool } from "lucide-react";
+import { Settings, Users, MapPin, Package, Wrench, Calendar, Database, Shield, Activity, BarChart3, User, ChevronDown, UserCircle, LogOut, Home, PenTool as Tool, AlertTriangle, LineChart, BellRing } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -67,7 +67,9 @@ const AdminPanelContent = () => {
     totalTools: 28,
     pendingActivities: 8,
     completedActivities: 23,
-    systemHealth: 98
+    systemHealth: 98,
+    alertsCount: 12,
+    criticalAlerts: 3
   };
 
   const adminMenuItems = [
@@ -109,6 +111,22 @@ const AdminPanelContent = () => {
       path: "/admin/tools-db",
       description: "Gestionar catálogo de herramientas",
       color: "bg-orange-500",
+      available: true
+    },
+    {
+      title: "Reportes y Análisis",
+      icon: <LineChart className="h-8 w-8" />,
+      path: "/admin/reports",
+      description: "Visualización de datos y reportes analíticos",
+      color: "bg-indigo-500",
+      available: true
+    },
+    {
+      title: "Alertas de IA",
+      icon: <BellRing className="h-8 w-8" />,
+      path: "/admin/ai-alerts",
+      description: "Alertas inteligentes y predicciones",
+      color: "bg-amber-500",
       available: true
     },
     {
@@ -257,10 +275,10 @@ const AdminPanelContent = () => {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Ubicaciones</p>
-                <p className="text-2xl font-bold">{stats.totalLocations}</p>
+                <p className="text-sm font-medium text-gray-600">Alertas Activas</p>
+                <p className="text-2xl font-bold text-amber-600">{stats.alertsCount}</p>
               </div>
-              <MapPin className="h-8 w-8 text-purple-500" />
+              <BellRing className="h-8 w-8 text-amber-500" />
             </div>
           </CardContent>
         </Card>
@@ -309,6 +327,73 @@ const AdminPanelContent = () => {
           </div>
         ))}
       </div>
+
+      {/* Alertas Críticas */}
+      <Card className="mb-8 border-amber-200 bg-amber-50">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-amber-800">
+            <AlertTriangle className="h-5 w-5 text-amber-600" />
+            Alertas Críticas ({stats.criticalAlerts})
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            <div className="p-3 bg-white rounded-lg border border-amber-200">
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="h-5 w-5 text-red-500 mt-0.5" />
+                <div>
+                  <h4 className="font-medium text-red-800">Brote potencial de Moniliasis detectado</h4>
+                  <p className="text-sm text-red-600">Área de Cacao - Sección B: Incremento del 27% en incidencia</p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <Badge variant="outline" className="text-xs bg-red-50 text-red-700">Crítica</Badge>
+                    <span className="text-xs text-gray-500">Hace 2 horas</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="p-3 bg-white rounded-lg border border-amber-200">
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="h-5 w-5 text-amber-500 mt-0.5" />
+                <div>
+                  <h4 className="font-medium text-amber-800">Condiciones favorables para Phytophthora</h4>
+                  <p className="text-sm text-amber-600">Invernadero Principal: Humedad elevada (85%) por 48 horas</p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <Badge variant="outline" className="text-xs bg-amber-50 text-amber-700">Alta</Badge>
+                    <span className="text-xs text-gray-500">Hace 5 horas</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="p-3 bg-white rounded-lg border border-amber-200">
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="h-5 w-5 text-amber-500 mt-0.5" />
+                <div>
+                  <h4 className="font-medium text-amber-800">Predicción de escasez de fungicida</h4>
+                  <p className="text-sm text-amber-600">Fungicida XYZ: Stock actual solo cubrirá 7 días más</p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <Badge variant="outline" className="text-xs bg-amber-50 text-amber-700">Alta</Badge>
+                    <span className="text-xs text-gray-500">Hace 1 día</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="text-center mt-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="text-amber-700 border-amber-300 hover:bg-amber-100"
+                onClick={() => navigate("/admin/ai-alerts")}
+              >
+                <BellRing className="h-4 w-4 mr-2" />
+                Ver todas las alertas
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Resumen de Actividades */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
