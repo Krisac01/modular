@@ -16,7 +16,6 @@ import {
 import { 
   MoreVertical, 
   Wrench, 
-  Tool,
   Edit,
   Trash2,
   Power,
@@ -195,7 +194,7 @@ export function ToolDatabaseList({ onEdit }: ToolDatabaseListProps) {
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
                             {(tool.brand || tool.model) && (
                               <div className="flex items-center gap-1">
-                                <Tool className="h-4 w-4 text-gray-500" />
+                                <Settings className="h-4 w-4 text-gray-500" />
                                 <span className="font-medium">Marca/Modelo:</span> 
                                 {tool.brand} {tool.model && `(${tool.model})`}
                               </div>
