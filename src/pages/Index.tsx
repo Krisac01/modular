@@ -57,7 +57,7 @@ const Index = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <h1 className="text-lg md:text-2xl lg:text-3xl font-bold leading-tight">
-                    Registro de Incidencia de Plagas
+                    Registro de Incidencia de Plagas en Invernadero
                   </h1>
                   <p className="text-green-100 text-xs md:text-sm mt-1 leading-tight">
                     Control y seguimiento de plagas en invernadero

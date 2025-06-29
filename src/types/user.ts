@@ -11,14 +11,16 @@ export interface User {
 
 export interface UserPermissions {
   // Permisos básicos (ambos roles)
-  canRecordPestIncidence: boolean;
-  canRecordPathogenIncidence: boolean;
   canUpdateLocation: boolean;
   canRegisterSupplyPossession: boolean;
   canRegisterToolPossession: boolean;
   canUseFacialRecognition: boolean;
   canViewDashboard: boolean;
   canExportData: boolean;
+
+  // Permisos de bitácora electrónica
+  canRecordPestIncidence: boolean;
+  canRecordPathogenIncidence: boolean;
 
   // Permisos de administrador
   canManageUsers?: boolean;
@@ -32,14 +34,14 @@ export interface UserPermissions {
 }
 
 export const DEFAULT_USER_PERMISSIONS: UserPermissions = {
-  canRecordPestIncidence: true,
-  canRecordPathogenIncidence: true,
   canUpdateLocation: true,
   canRegisterSupplyPossession: true,
   canRegisterToolPossession: true,
   canUseFacialRecognition: true,
   canViewDashboard: true,
   canExportData: true,
+  canRecordPestIncidence: true,
+  canRecordPathogenIncidence: true,
 };
 
 export const DEFAULT_ADMIN_PERMISSIONS: UserPermissions = {
