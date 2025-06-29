@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useData } from "@/context/DataContext";
 import { Button } from "@/components/ui/button";
@@ -56,7 +55,7 @@ export function IncidenceInput() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Registrar Incidencia de Plaga</CardTitle>
+        <CardTitle>Registrar datos en la plataforma</CardTitle>
       </CardHeader>
       <CardContent>
         {selectedRow ? (
