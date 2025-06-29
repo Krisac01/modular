@@ -94,7 +94,7 @@ const AdminPanelContent = () => {
       icon: <Calendar className="h-8 w-8" />,
       path: "/admin/activities",
       description: "Crear y asignar tareas a usuarios",
-      color: "bg-red-500",
+      color: "bg-green-500",
       available: true
     },
     {
@@ -102,7 +102,7 @@ const AdminPanelContent = () => {
       icon: <Package className="h-8 w-8" />,
       path: "/admin/supplies-db",
       description: "Gestionar catálogo de insumos",
-      color: "bg-purple-500",
+      color: "bg-green-500",
       available: true
     },
     {
@@ -110,7 +110,7 @@ const AdminPanelContent = () => {
       icon: <Tool className="h-8 w-8" />,
       path: "/admin/tools-db",
       description: "Gestionar catálogo de herramientas",
-      color: "bg-orange-500",
+      color: "bg-green-500",
       available: true
     },
     {
@@ -118,7 +118,7 @@ const AdminPanelContent = () => {
       icon: <LineChart className="h-8 w-8" />,
       path: "/admin/reports",
       description: "Visualización de datos y reportes analíticos",
-      color: "bg-indigo-500",
+      color: "bg-green-500",
       available: true
     },
     {
@@ -126,7 +126,7 @@ const AdminPanelContent = () => {
       icon: <BellRing className="h-8 w-8" />,
       path: "/admin/ai-alerts",
       description: "Alertas inteligentes y predicciones",
-      color: "bg-amber-500",
+      color: "bg-green-500",
       available: true
     },
     {
@@ -153,7 +153,7 @@ const AdminPanelContent = () => {
   return (
     <div className="max-w-7xl mx-auto">
       {/* Header Banner de Administrador */}
-      <div className="bg-gradient-to-r from-red-600 to-red-700 rounded-lg p-6 mb-8 text-white shadow-lg">
+      <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg p-6 mb-8 text-white shadow-lg">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div className="flex items-center gap-4">
             <div className="bg-white/20 rounded-full p-3">
@@ -163,14 +163,14 @@ const AdminPanelContent = () => {
               <h1 className="text-2xl md:text-3xl font-bold">
                 Panel de Administración
               </h1>
-              <p className="text-red-100 text-sm mt-1">
+              <p className="text-green-100 text-sm mt-1">
                 Bienvenido, {currentUser?.name}
               </p>
-              <div className="flex items-center gap-2 mt-2">
+              <div className="flex justify-center mt-2">
                 <Badge className="bg-white/20 text-white border-white/30">
                   Administrador
                 </Badge>
-                <Badge className="bg-green-500/80 text-white">
+                <Badge className="bg-green-500/80 text-white ml-2">
                   Sistema Activo
                 </Badge>
               </div>

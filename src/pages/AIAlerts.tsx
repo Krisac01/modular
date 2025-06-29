@@ -369,7 +369,7 @@ const AIAlerts = () => {
     <Layout>
       <div className="space-y-6">
         {/* Header Banner */}
-        <div className="bg-gradient-to-r from-amber-600 to-amber-700 rounded-lg p-4 md:p-6 text-white shadow-lg">
+        <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-lg p-4 md:p-6 text-white shadow-lg">
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-3">
               <div className="bg-white/20 rounded-full p-2 md:p-3 flex-shrink-0">
@@ -379,7 +379,7 @@ const AIAlerts = () => {
                 <h1 className="text-lg md:text-2xl lg:text-3xl font-bold leading-tight">
                   Alertas de IA
                 </h1>
-                <p className="text-amber-100 text-xs md:text-sm mt-1 leading-tight">
+                <p className="text-green-100 text-xs md:text-sm mt-1 leading-tight">
                   Sistema inteligente de alertas y predicciones
                 </p>
               </div>
