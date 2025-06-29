@@ -2,24 +2,7 @@ import { Layout } from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Settings, 
-  Users, 
-  MapPin, 
-  Package, 
-  Wrench, 
-  Calendar,
-  Database,
-  Shield,
-  Activity,
-  BarChart3,
-  User,
-  ChevronDown,
-  UserCircle,
-  LogOut,
-  Home,
-  Tool
-} from "lucide-react";
+import { Settings, Users, MapPin, Package, Wrench, Calendar, Database, Shield, Activity, BarChart3, User, ChevronDown, UserCircle, LogOut, Home, PenTool as Tool } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
