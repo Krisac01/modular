@@ -119,7 +119,7 @@ const AdminPanelContent = () => {
       path: "/admin/supplies-db",
       description: "Gestionar catálogo de insumos",
       color: "bg-purple-500",
-      available: false
+      available: true
     },
     {
       title: "Base de Datos de Herramientas",
