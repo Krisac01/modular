@@ -21,7 +21,7 @@ import UserProfile from "./pages/UserProfile";
 import ActivityAssignment from "./pages/ActivityAssignment";
 import SupplyDatabase from "./pages/SupplyDatabase";
 import ToolDatabase from "./pages/ToolDatabase";
-import SystemConfiguration from "./pages/SystemConfiguration";
+import SystemSettings from "./pages/SystemSettings";
 import { UserProvider, useUser } from "@/context/UserContext";
 
 const queryClient = new QueryClient();
@@ -99,7 +99,7 @@ const AppRoutes = () => {
       } />
       <Route path="/admin/settings" element={
         <ProtectedRoute requireAdmin>
-          <SystemConfiguration />
+          <SystemSettings />
         </ProtectedRoute>
       } />
       
