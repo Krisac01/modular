@@ -19,8 +19,7 @@ import {
   BarChart3,
   Database,
   AlertTriangle,
-  Plus,
-  Tool
+  Plus
 } from "lucide-react";
 import { useToolDatabase } from "@/context/ToolDatabaseContext";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -121,7 +120,7 @@ function ToolDatabaseContent() {
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-3">
             <div className="bg-white/20 rounded-full p-2 md:p-3 flex-shrink-0">
-              <Tool className="h-6 w-6 md:h-8 md:w-8 text-white" />
+              <Wrench className="h-6 w-6 md:h-8 md:w-8 text-white" />
             </div>
             <div className="flex-1 min-w-0">
               <h1 className="text-lg md:text-2xl lg:text-3xl font-bold leading-tight">
@@ -244,7 +243,7 @@ function ToolDatabaseContent() {
                 <p className="text-sm font-medium text-gray-600">Herramientas Activas</p>
                 <p className="text-2xl font-bold text-green-600">{stats.active}</p>
               </div>
-              <Tool className="h-8 w-8 text-green-500" />
+              <Wrench className="h-8 w-8 text-green-500" />
             </div>
           </CardContent>
         </Card>
