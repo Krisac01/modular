@@ -31,7 +31,9 @@ import {
   Thermometer,
   CloudRain,
   Leaf,
-  Zap
+  Zap,
+  MapPin,
+  Save
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
