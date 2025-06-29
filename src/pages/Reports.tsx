@@ -24,7 +24,10 @@ import {
   Bug,
   Droplets,
   Thermometer,
-  CloudRain
+  CloudRain,
+  ChevronRight,
+  LayoutGrid,
+  BookOpen
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
@@ -37,6 +40,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 // Mock data for charts
 const mockIncidenceData = [
@@ -72,13 +81,39 @@ const mockWeatherData = [
   { day: 'Dom', temperature: 28, humidity: 72, rainfall: 0 },
 ];
 
+// Definición de las bitácoras electrónicas disponibles
+const electronicLogbooks = [
+  {
+    id: "pest-incidence",
+    title: "Incidencia de Plagas en Invernadero",
+    icon: <LayoutGrid className="h-5 w-5 text-green-600" />,
+    description: "Registros de incidencia de plagas en surcos del invernadero",
+    path: "/data"
+  },
+  {
+    id: "cacao-pathogens",
+    title: "Patógenos de Cacao",
+    icon: <Bug className="h-5 w-5 text-amber-600" />,
+    description: "Registros de patógenos en árboles de cacao",
+    path: "/cacao-pathogens"
+  },
+  {
+    id: "activities",
+    title: "Actividades Asignadas",
+    icon: <Calendar className="h-5 w-5 text-blue-600" />,
+    description: "Seguimiento de actividades asignadas a usuarios",
+    path: "/admin/activities"
+  }
+];
+
 const Reports = () => {
   const { currentUser, isAdmin, logout } = useUser();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [activeTab, setActiveTab] = useState("incidence");
+  const [activeTab, setActiveTab] = useState("dashboard");
   const [timeRange, setTimeRange] = useState("year");
   const [location, setLocation] = useState("all");
+  const [expandedLogbook, setExpandedLogbook] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isAdmin) {
@@ -124,6 +159,10 @@ const Reports = () => {
         description: "El reporte ha sido descargado correctamente",
       });
     }, 2000);
+  };
+
+  const handleLogbookSelect = (logbookId: string) => {
+    setExpandedLogbook(expandedLogbook === logbookId ? null : logbookId);
   };
 
   if (!isAdmin) {
@@ -350,215 +389,293 @@ const Reports = () => {
           </Card>
         </div>
 
-        {/* Tabs de Reportes */}
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid grid-cols-3">
-            <TabsTrigger value="incidence">Incidencia de Plagas</TabsTrigger>
-            <TabsTrigger value="pathogens">Patógenos</TabsTrigger>
-            <TabsTrigger value="weather">Condiciones Ambientales</TabsTrigger>
-          </TabsList>
-          
-          {/* Tab de Incidencia */}
-          <TabsContent value="incidence">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <Card className="lg:col-span-2">
-                <CardHeader>
-                  <CardTitle>Tendencia de Incidencia</CardTitle>
-                  <CardDescription>Nivel promedio de incidencia por mes</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-80 w-full bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-center">
-                    {/* Aquí iría el gráfico real */}
-                    <div className="text-center">
-                      <BarChart3 className="h-12 w-12 mx-auto text-gray-300 mb-2" />
-                      <p className="text-gray-500">Gráfico de tendencia de incidencia</p>
-                      <p className="text-xs text-gray-400 mt-1">Datos de {timeRange === 'year' ? 'los últimos 12 meses' : timeRange === 'quarter' ? 'los últimos 3 meses' : 'el último mes'}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardHeader>
-                  <CardTitle>Distribución por Zonas</CardTitle>
-                  <CardDescription>Incidencia por ubicación</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-80 w-full bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-center">
-                    {/* Aquí iría el gráfico real */}
-                    <div className="text-center">
-                      <PieChart className="h-12 w-12 mx-auto text-gray-300 mb-2" />
-                      <p className="text-gray-500">Gráfico de distribución por zonas</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-            
-            <Card className="mt-6">
-              <CardHeader>
-                <CardTitle>Análisis de Incidencia por Surco</CardTitle>
-                <CardDescription>Detalle de niveles de incidencia por surco y subsección</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-96 w-full bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-center">
-                  {/* Aquí iría el mapa de calor real */}
-                  <div className="text-center">
-                    <BarChart3 className="h-12 w-12 mx-auto text-gray-300 mb-2" />
-                    <p className="text-gray-500">Mapa de calor de incidencia por surco</p>
-                  </div>
+        {/* Dashboard Principal y Bitácoras Electrónicas */}
+        <div className="space-y-6">
+          {/* Dashboard Principal */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BarChart3 className="h-5 w-5 text-green-600" />
+                Dashboard General
+              </CardTitle>
+              <CardDescription>
+                Resumen consolidado de todos los indicadores clave
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="h-80 w-full bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-center">
+                {/* Aquí iría el gráfico real */}
+                <div className="text-center">
+                  <BarChart3 className="h-12 w-12 mx-auto text-gray-300 mb-2" />
+                  <p className="text-gray-500">Dashboard general con indicadores clave</p>
+                  <p className="text-xs text-gray-400 mt-1">Datos consolidados de todas las bitácoras</p>
                 </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          
-          {/* Tab de Patógenos */}
-          <TabsContent value="pathogens">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <Card className="lg:col-span-2">
-                <CardHeader>
-                  <CardTitle>Distribución de Patógenos</CardTitle>
-                  <CardDescription>Porcentaje de incidencia por tipo de patógeno</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-80 w-full bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-center">
-                    {/* Aquí iría el gráfico real */}
-                    <div className="text-center">
-                      <PieChart className="h-12 w-12 mx-auto text-gray-300 mb-2" />
-                      <p className="text-gray-500">Gráfico de distribución de patógenos</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardHeader>
-                  <CardTitle>Prevalencia por Patógeno</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {mockPathogens.map((pathogen) => (
-                      <div key={pathogen.name} className="space-y-1">
-                        <div className="flex justify-between items-center">
-                          <div className="flex items-center gap-2">
-                            <Bug className="h-4 w-4 text-amber-500" />
-                            <span className="font-medium">{pathogen.name}</span>
-                          </div>
-                          <span className="text-sm font-bold">{pathogen.percentage}%</span>
-                        </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div 
-                            className="bg-amber-500 h-2 rounded-full" 
-                            style={{ width: `${pathogen.percentage}%` }}
-                          ></div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Bitácoras Electrónicas con Acordeón */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BookOpen className="h-5 w-5 text-green-600" />
+                Bitácoras Electrónicas
+              </CardTitle>
+              <CardDescription>
+                Reportes detallados por cada tipo de registro
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Accordion type="single" collapsible className="w-full">
+                {electronicLogbooks.map((logbook) => (
+                  <AccordionItem key={logbook.id} value={logbook.id}>
+                    <AccordionTrigger className="hover:bg-gray-50 px-4 py-3 rounded-lg">
+                      <div className="flex items-center gap-3">
+                        {logbook.icon}
+                        <div className="text-left">
+                          <h3 className="font-medium">{logbook.title}</h3>
+                          <p className="text-xs text-gray-500">{logbook.description}</p>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+                    </AccordionTrigger>
+                    <AccordionContent className="px-4 pt-2 pb-4">
+                      {logbook.id === "pest-incidence" && (
+                        <div className="space-y-6">
+                          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <Card className="lg:col-span-2">
+                              <CardHeader>
+                                <CardTitle>Tendencia de Incidencia</CardTitle>
+                                <CardDescription>Nivel promedio de incidencia por mes</CardDescription>
+                              </CardHeader>
+                              <CardContent>
+                                <div className="h-80 w-full bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-center">
+                                  {/* Aquí iría el gráfico real */}
+                                  <div className="text-center">
+                                    <BarChart3 className="h-12 w-12 mx-auto text-gray-300 mb-2" />
+                                    <p className="text-gray-500">Gráfico de tendencia de incidencia</p>
+                                    <p className="text-xs text-gray-400 mt-1">Datos de {timeRange === 'year' ? 'los últimos 12 meses' : timeRange === 'quarter' ? 'los últimos 3 meses' : 'el último mes'}</p>
+                                  </div>
+                                </div>
+                              </CardContent>
+                            </Card>
+                            
+                            <Card>
+                              <CardHeader>
+                                <CardTitle>Distribución por Zonas</CardTitle>
+                                <CardDescription>Incidencia por ubicación</CardDescription>
+                              </CardHeader>
+                              <CardContent>
+                                <div className="h-80 w-full bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-center">
+                                  {/* Aquí iría el gráfico real */}
+                                  <div className="text-center">
+                                    <PieChart className="h-12 w-12 mx-auto text-gray-300 mb-2" />
+                                    <p className="text-gray-500">Gráfico de distribución por zonas</p>
+                                  </div>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          </div>
+                          
+                          <div className="flex justify-end">
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              className="flex items-center gap-2"
+                              onClick={() => navigate("/data")}
+                            >
+                              <LayoutGrid className="h-4 w-4" />
+                              Ver Bitácora Completa
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {logbook.id === "cacao-pathogens" && (
+                        <div className="space-y-6">
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <Card>
+                              <CardHeader>
+                                <CardTitle>Distribución de Patógenos</CardTitle>
+                                <CardDescription>Porcentaje de incidencia por tipo de patógeno</CardDescription>
+                              </CardHeader>
+                              <CardContent>
+                                <div className="h-80 w-full bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-center">
+                                  {/* Aquí iría el gráfico real */}
+                                  <div className="text-center">
+                                    <PieChart className="h-12 w-12 mx-auto text-gray-300 mb-2" />
+                                    <p className="text-gray-500">Gráfico de distribución de patógenos</p>
+                                  </div>
+                                </div>
+                              </CardContent>
+                            </Card>
+                            
+                            <Card>
+                              <CardHeader>
+                                <CardTitle>Prevalencia por Patógeno</CardTitle>
+                              </CardHeader>
+                              <CardContent>
+                                <div className="space-y-4">
+                                  {mockPathogens.map((pathogen) => (
+                                    <div key={pathogen.name} className="space-y-1">
+                                      <div className="flex justify-between items-center">
+                                        <div className="flex items-center gap-2">
+                                          <Bug className="h-4 w-4 text-amber-500" />
+                                          <span className="font-medium">{pathogen.name}</span>
+                                        </div>
+                                        <span className="text-sm font-bold">{pathogen.percentage}%</span>
+                                      </div>
+                                      <div className="w-full bg-gray-200 rounded-full h-2">
+                                        <div 
+                                          className="bg-amber-500 h-2 rounded-full" 
+                                          style={{ width: `${pathogen.percentage}%` }}
+                                        ></div>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </CardContent>
+                            </Card>
+                          </div>
+                          
+                          <div className="flex justify-end">
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              className="flex items-center gap-2"
+                              onClick={() => navigate("/cacao-pathogens")}
+                            >
+                              <Bug className="h-4 w-4" />
+                              Ver Bitácora Completa
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {logbook.id === "activities" && (
+                        <div className="space-y-6">
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <Card>
+                              <CardContent className="pt-6">
+                                <div className="flex items-center justify-between">
+                                  <div>
+                                    <p className="text-sm font-medium text-gray-600">Actividades Pendientes</p>
+                                    <p className="text-2xl font-bold text-yellow-600">8</p>
+                                  </div>
+                                  <Calendar className="h-8 w-8 text-yellow-500" />
+                                </div>
+                              </CardContent>
+                            </Card>
+                            
+                            <Card>
+                              <CardContent className="pt-6">
+                                <div className="flex items-center justify-between">
+                                  <div>
+                                    <p className="text-sm font-medium text-gray-600">Completadas</p>
+                                    <p className="text-2xl font-bold text-green-600">23</p>
+                                  </div>
+                                  <Calendar className="h-8 w-8 text-green-500" />
+                                </div>
+                              </CardContent>
+                            </Card>
+                            
+                            <Card>
+                              <CardContent className="pt-6">
+                                <div className="flex items-center justify-between">
+                                  <div>
+                                    <p className="text-sm font-medium text-gray-600">Tasa de Finalización</p>
+                                    <p className="text-2xl font-bold text-blue-600">74%</p>
+                                  </div>
+                                  <Calendar className="h-8 w-8 text-blue-500" />
+                                </div>
+                              </CardContent>
+                            </Card>
+                          </div>
+                          
+                          <Card>
+                            <CardHeader>
+                              <CardTitle>Distribución de Actividades por Categoría</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <div className="h-64 w-full bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-center">
+                                {/* Aquí iría el gráfico real */}
+                                <div className="text-center">
+                                  <PieChart className="h-12 w-12 mx-auto text-gray-300 mb-2" />
+                                  <p className="text-gray-500">Gráfico de distribución de actividades</p>
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card>
+                          
+                          <div className="flex justify-end">
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              className="flex items-center gap-2"
+                              onClick={() => navigate("/admin/activities")}
+                            >
+                              <Calendar className="h-4 w-4" />
+                              Ver Actividades Completas
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Condiciones Ambientales */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <CloudRain className="h-5 w-5 text-blue-600" />
+              Condiciones Ambientales
+            </CardTitle>
+            <CardDescription>Datos climáticos y su impacto en los cultivos</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="border-b border-gray-200">
+                    <th className="py-2 px-4 text-left font-medium text-gray-600">Día</th>
+                    <th className="py-2 px-4 text-left font-medium text-gray-600">
+                      <div className="flex items-center gap-1">
+                        <Thermometer className="h-4 w-4 text-red-500" />
+                        <span>Temperatura</span>
+                      </div>
+                    </th>
+                    <th className="py-2 px-4 text-left font-medium text-gray-600">
+                      <div className="flex items-center gap-1">
+                        <Droplets className="h-4 w-4 text-blue-500" />
+                        <span>Humedad</span>
+                      </div>
+                    </th>
+                    <th className="py-2 px-4 text-left font-medium text-gray-600">
+                      <div className="flex items-center gap-1">
+                        <CloudRain className="h-4 w-4 text-cyan-500" />
+                        <span>Precipitación</span>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {mockWeatherData.map((day) => (
+                    <tr key={day.day} className="border-b border-gray-100">
+                      <td className="py-2 px-4 font-medium">{day.day}</td>
+                      <td className="py-2 px-4">{day.temperature}°C</td>
+                      <td className="py-2 px-4">{day.humidity}%</td>
+                      <td className="py-2 px-4">{day.rainfall} mm</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-            
-            <Card className="mt-6">
-              <CardHeader>
-                <CardTitle>Evolución Temporal de Patógenos</CardTitle>
-                <CardDescription>Tendencia de incidencia por tipo de patógeno a lo largo del tiempo</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="h-80 w-full bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-center">
-                  {/* Aquí iría el gráfico real */}
-                  <div className="text-center">
-                    <LineChart className="h-12 w-12 mx-auto text-gray-300 mb-2" />
-                    <p className="text-gray-500">Gráfico de evolución temporal de patógenos</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          
-          {/* Tab de Condiciones Ambientales */}
-          <TabsContent value="weather">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Temperatura y Humedad</CardTitle>
-                  <CardDescription>Últimos 7 días</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-80 w-full bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-center">
-                    {/* Aquí iría el gráfico real */}
-                    <div className="text-center">
-                      <LineChart className="h-12 w-12 mx-auto text-gray-300 mb-2" />
-                      <p className="text-gray-500">Gráfico de temperatura y humedad</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              <Card>
-                <CardHeader>
-                  <CardTitle>Precipitación</CardTitle>
-                  <CardDescription>Últimos 7 días</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-80 w-full bg-gray-50 rounded-lg border border-gray-200 flex items-center justify-center">
-                    {/* Aquí iría el gráfico real */}
-                    <div className="text-center">
-                      <BarChart3 className="h-12 w-12 mx-auto text-gray-300 mb-2" />
-                      <p className="text-gray-500">Gráfico de precipitación</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-            
-            <Card className="mt-6">
-              <CardHeader>
-                <CardTitle>Resumen de Condiciones Ambientales</CardTitle>
-                <CardDescription>Datos de la última semana</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="overflow-x-auto">
-                  <table className="w-full border-collapse">
-                    <thead>
-                      <tr className="border-b border-gray-200">
-                        <th className="py-2 px-4 text-left font-medium text-gray-600">Día</th>
-                        <th className="py-2 px-4 text-left font-medium text-gray-600">
-                          <div className="flex items-center gap-1">
-                            <Thermometer className="h-4 w-4 text-red-500" />
-                            <span>Temperatura</span>
-                          </div>
-                        </th>
-                        <th className="py-2 px-4 text-left font-medium text-gray-600">
-                          <div className="flex items-center gap-1">
-                            <Droplets className="h-4 w-4 text-blue-500" />
-                            <span>Humedad</span>
-                          </div>
-                        </th>
-                        <th className="py-2 px-4 text-left font-medium text-gray-600">
-                          <div className="flex items-center gap-1">
-                            <CloudRain className="h-4 w-4 text-cyan-500" />
-                            <span>Precipitación</span>
-                          </div>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {mockWeatherData.map((day) => (
-                        <tr key={day.day} className="border-b border-gray-100">
-                          <td className="py-2 px-4 font-medium">{day.day}</td>
-                          <td className="py-2 px-4">{day.temperature}°C</td>
-                          <td className="py-2 px-4">{day.humidity}%</td>
-                          <td className="py-2 px-4">{day.rainfall} mm</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+          </CardContent>
+        </Card>
       </div>
     </Layout>
   );
