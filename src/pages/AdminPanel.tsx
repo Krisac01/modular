@@ -66,10 +66,7 @@ const AdminPanelContent = () => {
   };
 
   const handleSettings = () => {
-    toast({
-      title: "Configuración",
-      description: "Funcionalidad en desarrollo",
-    });
+    navigate("/admin/settings");
   };
 
   if (!isAdmin) {
@@ -134,8 +131,8 @@ const AdminPanelContent = () => {
       icon: <Settings className="h-8 w-8" />,
       path: "/admin/settings",
       description: "Configuraciones generales",
-      color: "bg-gray-500",
-      available: false
+      color: "bg-blue-600",
+      available: true
     }
   ];
 
