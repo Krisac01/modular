@@ -124,7 +124,7 @@ export const generateInitialUsers = (): UserManagement[] => {
     },
     {
       id: "user001",
-      name: "Usuario Demo",
+      name: "Roberto Sánchez",
       email: "usuario@ejemplo.com",
       role: "user",
       department: "Campo",

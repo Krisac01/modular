@@ -67,7 +67,7 @@ export const DEMO_USERS: User[] = [
   },
   {
     id: "user001",
-    name: "Usuario Demo",
+    name: "Roberto Sánchez",
     email: "usuario@ejemplo.com",
     role: "user",
     department: "Campo",
