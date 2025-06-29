@@ -20,6 +20,7 @@ import UserManagement from "./pages/UserManagement";
 import UserProfile from "./pages/UserProfile";
 import ActivityAssignment from "./pages/ActivityAssignment";
 import SupplyDatabase from "./pages/SupplyDatabase";
+import ToolDatabase from "./pages/ToolDatabase";
 import { UserProvider, useUser } from "@/context/UserContext";
 
 const queryClient = new QueryClient();
@@ -88,6 +89,11 @@ const AppRoutes = () => {
       <Route path="/admin/supplies-db" element={
         <ProtectedRoute requireAdmin>
           <SupplyDatabase />
+        </ProtectedRoute>
+      } />
+      <Route path="/admin/tools-db" element={
+        <ProtectedRoute requireAdmin>
+          <ToolDatabase />
         </ProtectedRoute>
       } />
       

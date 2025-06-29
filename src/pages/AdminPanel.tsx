@@ -18,7 +18,8 @@ import {
   ChevronDown,
   UserCircle,
   LogOut,
-  Home
+  Home,
+  Tool
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
@@ -123,11 +124,11 @@ const AdminPanelContent = () => {
     },
     {
       title: "Base de Datos de Herramientas",
-      icon: <Wrench className="h-8 w-8" />,
+      icon: <Tool className="h-8 w-8" />,
       path: "/admin/tools-db",
       description: "Gestionar catálogo de herramientas",
       color: "bg-orange-500",
-      available: false
+      available: true
     },
     {
       title: "Configuración del Sistema",
