@@ -357,7 +357,7 @@ function MainMenuContent() {
                   <Button variant="outline" className="w-full flex items-center gap-3 justify-start px-4 py-4 h-auto hover:bg-green-50 hover:border-green-300">
                     <LayoutGrid className="h-6 w-6 text-green-600" />
                     <div className="text-left">
-                      <div className="font-medium text-base">Registrar datos en la plataforma</div>
+                      <div className="font-medium text-base">Registro de incidencia de plagas</div>
                       <div className="text-sm text-gray-500">Registro de incidencia en surcos del invernadero</div>
                     </div>
                   </Button>
