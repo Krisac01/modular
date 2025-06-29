@@ -60,10 +60,7 @@ const AdminPanel = () => {
   };
 
   const handleProfile = () => {
-    toast({
-      title: "Perfil de usuario",
-      description: "Funcionalidad en desarrollo",
-    });
+    navigate("/profile");
   };
 
   const handleSettings = () => {
@@ -107,6 +104,14 @@ const AdminPanel = () => {
       available: true
     },
     {
+      title: "Asignación de Actividades",
+      icon: <Calendar className="h-8 w-8" />,
+      path: "/admin/activities",
+      description: "Crear y asignar tareas a usuarios",
+      color: "bg-red-500",
+      available: true
+    },
+    {
       title: "Base de Datos de Insumos",
       icon: <Package className="h-8 w-8" />,
       path: "/admin/supplies-db",
@@ -120,14 +125,6 @@ const AdminPanel = () => {
       path: "/admin/tools-db",
       description: "Gestionar catálogo de herramientas",
       color: "bg-orange-500",
-      available: false
-    },
-    {
-      title: "Asignación de Actividades",
-      icon: <Calendar className="h-8 w-8" />,
-      path: "/admin/activities",
-      description: "Crear y asignar tareas a usuarios",
-      color: "bg-red-500",
       available: false
     },
     {
@@ -387,8 +384,14 @@ const AdminPanel = () => {
                       </Badge>
                     </div>
                     <div className="pt-2">
-                      <Button variant="outline" size="sm" className="w-full">
-                        Ver Todas las Actividades
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="w-full"
+                        onClick={() => navigate("/admin/activities")}
+                      >
+                        <Calendar className="h-4 w-4 mr-2" />
+                        Gestionar Actividades
                       </Button>
                     </div>
                   </div>

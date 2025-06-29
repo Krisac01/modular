@@ -18,6 +18,7 @@ import AdminPanel from "./pages/AdminPanel";
 import LocationManagement from "./pages/LocationManagement";
 import UserManagement from "./pages/UserManagement";
 import UserProfile from "./pages/UserProfile";
+import ActivityAssignment from "./pages/ActivityAssignment";
 import { UserProvider, useUser } from "@/context/UserContext";
 
 const queryClient = new QueryClient();
@@ -76,6 +77,11 @@ const AppRoutes = () => {
       <Route path="/admin/users" element={
         <ProtectedRoute requireAdmin>
           <UserManagement />
+        </ProtectedRoute>
+      } />
+      <Route path="/admin/activities" element={
+        <ProtectedRoute requireAdmin>
+          <ActivityAssignment />
         </ProtectedRoute>
       } />
       
