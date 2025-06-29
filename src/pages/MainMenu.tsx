@@ -68,10 +68,7 @@ const MainMenu = () => {
   };
 
   const handleProfile = () => {
-    toast({
-      title: "Perfil de usuario",
-      description: "Funcionalidad en desarrollo",
-    });
+    navigate("/profile");
   };
 
   const handleSettings = () => {

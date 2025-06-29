@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/context/UserContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,34 +19,21 @@ import {
 const Index = () => {
   const currentDate = new Date();
   const formattedDate = format(currentDate, "dd/MM/yyyy");
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const { currentUser, logout } = useUser();
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  useEffect(() => {
-    const userStr = localStorage.getItem("user");
-    if (userStr) {
-      setUser(JSON.parse(userStr));
-    }
-  }, []);
-
   const handleLogout = () => {
-    localStorage.removeItem("isAuthenticated");
-    localStorage.removeItem("user");
-    
+    logout();
     toast({
       title: "Sesión cerrada",
       description: "Ha cerrado sesión exitosamente",
     });
-    
     navigate("/login");
   };
 
   const handleProfile = () => {
-    toast({
-      title: "Perfil de usuario",
-      description: "Funcionalidad en desarrollo",
-    });
+    navigate("/profile");
   };
 
   const handleSettings = () => {
@@ -117,10 +105,10 @@ const Index = () => {
                     >
                       <div className="px-3 py-2 border-b border-gray-100">
                         <p className="text-sm font-medium text-gray-900 truncate">
-                          {user?.name || 'Usuario'}
+                          {currentUser?.name || 'Usuario'}
                         </p>
                         <p className="text-xs text-gray-500 truncate">
-                          {user?.email || 'usuario@ejemplo.com'}
+                          {currentUser?.email || 'usuario@ejemplo.com'}
                         </p>
                       </div>
                       

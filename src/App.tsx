@@ -17,6 +17,7 @@ import FacialRecognition from "./pages/FacialRecognition";
 import AdminPanel from "./pages/AdminPanel";
 import LocationManagement from "./pages/LocationManagement";
 import UserManagement from "./pages/UserManagement";
+import UserProfile from "./pages/UserProfile";
 import { UserProvider, useUser } from "@/context/UserContext";
 
 const queryClient = new QueryClient();
@@ -117,6 +118,11 @@ const AppRoutes = () => {
       <Route path="/cacao-pathogens" element={
         <ProtectedRoute>
           <CacaoPathogens />
+        </ProtectedRoute>
+      } />
+      <Route path="/profile" element={
+        <ProtectedRoute>
+          <UserProfile />
         </ProtectedRoute>
       } />
       
