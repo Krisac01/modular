@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useLocationManagement } from "@/context/LocationManagementContext";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "@/components/ui/sonner";
 import { MapPin, Plus, Navigation } from "lucide-react";
 import { LocationManagement } from "@/types/locationManagement";
+import { UserDropdown } from "@/components/UserDropdown";
 
 interface LocationManagementFormProps {
   editingLocation?: LocationManagement | null;
@@ -28,7 +29,7 @@ export function LocationManagementForm({ editingLocation, onCancel, onSave }: Lo
   const [isActive, setIsActive] = useState(editingLocation?.isActive ?? true);
   const [maxCapacity, setMaxCapacity] = useState(editingLocation?.maxCapacity?.toString() || "");
   const [currentOccupancy, setCurrentOccupancy] = useState(editingLocation?.currentOccupancy?.toString() || "");
-  const [responsiblePerson, setResponsiblePerson] = useState(editingLocation?.responsiblePerson || "");
+  const [responsiblePersonId, setResponsiblePersonId] = useState(editingLocation?.responsiblePerson || "");
   const [notes, setNotes] = useState(editingLocation?.notes || "");
   const [coordinates, setCoordinates] = useState({
     latitude: editingLocation?.coordinates?.latitude?.toString() || "",
@@ -67,7 +68,7 @@ export function LocationManagementForm({ editingLocation, onCancel, onSave }: Lo
       isActive,
       maxCapacity: maxCapacity ? parseInt(maxCapacity) : undefined,
       currentOccupancy: currentOccupancy ? parseInt(currentOccupancy) : undefined,
-      responsiblePerson: responsiblePerson.trim() || undefined,
+      responsiblePerson: responsiblePersonId || undefined,
       notes: notes.trim() || undefined,
       coordinates: coordinates.latitude && coordinates.longitude ? {
         latitude: parseFloat(coordinates.latitude),
@@ -90,7 +91,7 @@ export function LocationManagementForm({ editingLocation, onCancel, onSave }: Lo
     setIsActive(true);
     setMaxCapacity("");
     setCurrentOccupancy("");
-    setResponsiblePerson("");
+    setResponsiblePersonId("");
     setNotes("");
     setCoordinates({ latitude: "", longitude: "" });
 
@@ -250,11 +251,13 @@ export function LocationManagementForm({ editingLocation, onCancel, onSave }: Lo
           {/* Responsable */}
           <div className="space-y-2">
             <Label htmlFor="responsiblePerson">Persona Responsable</Label>
-            <Input
-              id="responsiblePerson"
-              value={responsiblePerson}
-              onChange={(e) => setResponsiblePerson(e.target.value)}
-              placeholder="Nombre del responsable de la ubicación"
+            <UserDropdown
+              value={responsiblePersonId}
+              onValueChange={setResponsiblePersonId}
+              placeholder="Seleccionar responsable"
+              showRole={true}
+              showDepartment={true}
+              showOnlyActive={true}
             />
           </div>
 

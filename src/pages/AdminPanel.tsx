@@ -24,6 +24,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/context/UserContext";
+import { UserDropdownDemo } from "@/components/UserDropdownDemo";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -36,6 +37,7 @@ const AdminPanel = () => {
   const { currentUser, isAdmin, logout } = useUser();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [activeTab, setActiveTab] = useState("main");
 
   useEffect(() => {
     if (!isAdmin) {
@@ -245,146 +247,183 @@ const AdminPanel = () => {
           </div>
         </div>
 
-        {/* Estadísticas del Sistema */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <Card>
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Usuarios Totales</p>
-                  <p className="text-2xl font-bold">{stats.totalUsers}</p>
-                </div>
-                <Users className="h-8 w-8 text-blue-500" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Usuarios Activos</p>
-                  <p className="text-2xl font-bold text-green-600">{stats.activeUsers}</p>
-                </div>
-                <Activity className="h-8 w-8 text-green-500" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Ubicaciones</p>
-                  <p className="text-2xl font-bold">{stats.totalLocations}</p>
-                </div>
-                <MapPin className="h-8 w-8 text-purple-500" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Salud del Sistema</p>
-                  <p className="text-2xl font-bold text-green-600">{stats.systemHealth}%</p>
-                </div>
-                <BarChart3 className="h-8 w-8 text-orange-500" />
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Menú de Administración */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
-          {adminMenuItems.map((item) => (
-            <div key={item.path} className="block">
-              <Card 
-                className={`h-full transition-all duration-200 hover:shadow-lg hover:scale-105 border-2 border-gray-100 cursor-pointer ${
-                  !item.available ? 'opacity-60' : ''
-                }`}
-                onClick={() => handleMenuClick(item)}
-              >
-                <CardContent className="pt-6 flex flex-col items-center text-center">
-                  <div className={`rounded-full p-3 mb-4 ${item.color} text-white relative`}>
-                    {item.icon}
-                    {item.available && (
-                      <Badge className="absolute -top-1 -right-1 bg-green-500 text-white text-xs px-1">
-                        ✓
-                      </Badge>
-                    )}
+        {/* Tabs para diferentes secciones */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-8">
+          <TabsList className="w-full">
+            <TabsTrigger value="main">Panel Principal</TabsTrigger>
+            <TabsTrigger value="components">Componentes</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="main">
+            {/* Estadísticas del Sistema */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">Usuarios Totales</p>
+                      <p className="text-2xl font-bold">{stats.totalUsers}</p>
+                    </div>
+                    <Users className="h-8 w-8 text-blue-500" />
                   </div>
-                  <h2 className="font-semibold text-lg mb-2">{item.title}</h2>
-                  <p className="text-sm text-gray-500">{item.description}</p>
-                  {!item.available && (
-                    <Badge variant="outline" className="mt-2 text-xs">
-                      Próximamente
-                    </Badge>
-                  )}
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">Usuarios Activos</p>
+                      <p className="text-2xl font-bold text-green-600">{stats.activeUsers}</p>
+                    </div>
+                    <Activity className="h-8 w-8 text-green-500" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">Ubicaciones</p>
+                      <p className="text-2xl font-bold">{stats.totalLocations}</p>
+                    </div>
+                    <MapPin className="h-8 w-8 text-purple-500" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">Salud del Sistema</p>
+                      <p className="text-2xl font-bold text-green-600">{stats.systemHealth}%</p>
+                    </div>
+                    <BarChart3 className="h-8 w-8 text-orange-500" />
+                  </div>
                 </CardContent>
               </Card>
             </div>
-          ))}
-        </div>
 
-        {/* Resumen de Actividades */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Database className="h-5 w-5" />
-                Resumen de Inventario
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Insumos Registrados</span>
-                  <Badge variant="outline">{stats.totalSupplies}</Badge>
+            {/* Menú de Administración */}
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
+              {adminMenuItems.map((item) => (
+                <div key={item.path} className="block">
+                  <Card 
+                    className={`h-full transition-all duration-200 hover:shadow-lg hover:scale-105 border-2 border-gray-100 cursor-pointer ${
+                      !item.available ? 'opacity-60' : ''
+                    }`}
+                    onClick={() => handleMenuClick(item)}
+                  >
+                    <CardContent className="pt-6 flex flex-col items-center text-center">
+                      <div className={`rounded-full p-3 mb-4 ${item.color} text-white relative`}>
+                        {item.icon}
+                        {item.available && (
+                          <Badge className="absolute -top-1 -right-1 bg-green-500 text-white text-xs px-1">
+                            ✓
+                          </Badge>
+                        )}
+                      </div>
+                      <h2 className="font-semibold text-lg mb-2">{item.title}</h2>
+                      <p className="text-sm text-gray-500">{item.description}</p>
+                      {!item.available && (
+                        <Badge variant="outline" className="mt-2 text-xs">
+                          Próximamente
+                        </Badge>
+                      )}
+                    </CardContent>
+                  </Card>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Herramientas Registradas</span>
-                  <Badge variant="outline">{stats.totalTools}</Badge>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Ubicaciones Configuradas</span>
-                  <Badge variant="outline">{stats.totalLocations}</Badge>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              ))}
+            </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Calendar className="h-5 w-5" />
-                Estado de Actividades
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Actividades Pendientes</span>
-                  <Badge variant="outline" className="bg-yellow-50 text-yellow-700">
-                    {stats.pendingActivities}
-                  </Badge>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Actividades Completadas</span>
-                  <Badge variant="outline" className="bg-green-50 text-green-700">
-                    {stats.completedActivities}
-                  </Badge>
-                </div>
-                <div className="pt-2">
-                  <Button variant="outline" size="sm" className="w-full">
-                    Ver Todas las Actividades
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+            {/* Resumen de Actividades */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Database className="h-5 w-5" />
+                    Resumen de Inventario
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">Insumos Registrados</span>
+                      <Badge variant="outline">{stats.totalSupplies}</Badge>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">Herramientas Registradas</span>
+                      <Badge variant="outline">{stats.totalTools}</Badge>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">Ubicaciones Configuradas</span>
+                      <Badge variant="outline">{stats.totalLocations}</Badge>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Calendar className="h-5 w-5" />
+                    Estado de Actividades
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">Actividades Pendientes</span>
+                      <Badge variant="outline" className="bg-yellow-50 text-yellow-700">
+                        {stats.pendingActivities}
+                      </Badge>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">Actividades Completadas</span>
+                      <Badge variant="outline" className="bg-green-50 text-green-700">
+                        {stats.completedActivities}
+                      </Badge>
+                    </div>
+                    <div className="pt-2">
+                      <Button variant="outline" size="sm" className="w-full">
+                        Ver Todas las Actividades
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="components">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <UserDropdownDemo />
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle>Componentes Disponibles</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Esta sección muestra componentes reutilizables que pueden ser utilizados en diferentes partes del sistema.
+                  </p>
+                  
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium">UserDropdown</span>
+                      <Badge className="bg-green-100 text-green-800">Disponible</Badge>
+                    </div>
+                    <p className="text-xs text-gray-500">
+                      Componente para seleccionar usuarios del sistema con opciones de filtrado.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </Layout>
   );
