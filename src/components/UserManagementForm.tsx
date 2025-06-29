@@ -363,6 +363,81 @@ export function UserManagementForm({ editingUser, onCancel, onSave }: UserManage
             <div className="border rounded-md p-4">
               <h4 className="font-medium mb-3">Permisos Básicos</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="canUpdateLocation" 
+                      checked={permissions.canUpdateLocation}
+                      onCheckedChange={(checked) => 
+                        handlePermissionChange('canUpdateLocation', checked as boolean)
+                      }
+                    />
+                    <Label htmlFor="canUpdateLocation">Actualizar ubicación</Label>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="canRegisterSupplyPossession" 
+                      checked={permissions.canRegisterSupplyPossession}
+                      onCheckedChange={(checked) => 
+                        handlePermissionChange('canRegisterSupplyPossession', checked as boolean)
+                      }
+                    />
+                    <Label htmlFor="canRegisterSupplyPossession">Registrar posesión de insumos</Label>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="canRegisterToolPossession" 
+                      checked={permissions.canRegisterToolPossession}
+                      onCheckedChange={(checked) => 
+                        handlePermissionChange('canRegisterToolPossession', checked as boolean)
+                      }
+                    />
+                    <Label htmlFor="canRegisterToolPossession">Registrar posesión de herramientas</Label>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="canUseFacialRecognition" 
+                      checked={permissions.canUseFacialRecognition}
+                      onCheckedChange={(checked) => 
+                        handlePermissionChange('canUseFacialRecognition', checked as boolean)
+                      }
+                    />
+                    <Label htmlFor="canUseFacialRecognition">Usar reconocimiento facial</Label>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="canViewDashboard" 
+                      checked={permissions.canViewDashboard}
+                      onCheckedChange={(checked) => 
+                        handlePermissionChange('canViewDashboard', checked as boolean)
+                      }
+                    />
+                    <Label htmlFor="canViewDashboard">Ver dashboard</Label>
+                  </div>
+                  
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="canExportData" 
+                      checked={permissions.canExportData}
+                      onCheckedChange={(checked) => 
+                        handlePermissionChange('canExportData', checked as boolean)
+                      }
+                    />
+                    <Label htmlFor="canExportData">Exportar datos</Label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="border rounded-md p-4">
+              <h4 className="font-medium mb-3">Permisos de Bitácora Electrónica</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex items-center space-x-2">
                   <Checkbox 
                     id="canRecordPestIncidence" 
@@ -383,72 +458,6 @@ export function UserManagementForm({ editingUser, onCancel, onSave }: UserManage
                     }
                   />
                   <Label htmlFor="canRecordPathogenIncidence">Registrar incidencia de patógenos</Label>
-                </div>
-                
-                <div className="flex items-center space-x-2">
-                  <Checkbox 
-                    id="canUpdateLocation" 
-                    checked={permissions.canUpdateLocation}
-                    onCheckedChange={(checked) => 
-                      handlePermissionChange('canUpdateLocation', checked as boolean)
-                    }
-                  />
-                  <Label htmlFor="canUpdateLocation">Actualizar ubicación</Label>
-                </div>
-                
-                <div className="flex items-center space-x-2">
-                  <Checkbox 
-                    id="canRegisterSupplyPossession" 
-                    checked={permissions.canRegisterSupplyPossession}
-                    onCheckedChange={(checked) => 
-                      handlePermissionChange('canRegisterSupplyPossession', checked as boolean)
-                    }
-                  />
-                  <Label htmlFor="canRegisterSupplyPossession">Registrar posesión de insumos</Label>
-                </div>
-                
-                <div className="flex items-center space-x-2">
-                  <Checkbox 
-                    id="canRegisterToolPossession" 
-                    checked={permissions.canRegisterToolPossession}
-                    onCheckedChange={(checked) => 
-                      handlePermissionChange('canRegisterToolPossession', checked as boolean)
-                    }
-                  />
-                  <Label htmlFor="canRegisterToolPossession">Registrar posesión de herramientas</Label>
-                </div>
-                
-                <div className="flex items-center space-x-2">
-                  <Checkbox 
-                    id="canUseFacialRecognition" 
-                    checked={permissions.canUseFacialRecognition}
-                    onCheckedChange={(checked) => 
-                      handlePermissionChange('canUseFacialRecognition', checked as boolean)
-                    }
-                  />
-                  <Label htmlFor="canUseFacialRecognition">Usar reconocimiento facial</Label>
-                </div>
-                
-                <div className="flex items-center space-x-2">
-                  <Checkbox 
-                    id="canViewDashboard" 
-                    checked={permissions.canViewDashboard}
-                    onCheckedChange={(checked) => 
-                      handlePermissionChange('canViewDashboard', checked as boolean)
-                    }
-                  />
-                  <Label htmlFor="canViewDashboard">Ver dashboard</Label>
-                </div>
-                
-                <div className="flex items-center space-x-2">
-                  <Checkbox 
-                    id="canExportData" 
-                    checked={permissions.canExportData}
-                    onCheckedChange={(checked) => 
-                      handlePermissionChange('canExportData', checked as boolean)
-                    }
-                  />
-                  <Label htmlFor="canExportData">Exportar datos</Label>
                 </div>
               </div>
             </div>
