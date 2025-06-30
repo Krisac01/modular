@@ -67,15 +67,7 @@ const Login = () => {
 
   return (
     <Layout hideHeader className="bg-gradient-to-r from-green-100 to-green-50">
-      <div className="min-h-screen flex items-center justify-center p-4 relative">
-        
-        {/* ===== LOGO AÑADIDO AQUÍ ===== */}
-        <img
-          src="/lovable-uploads/black_circle_360x360.png"
-          alt="Logo Black"
-          className="absolute top-4 right-4 h-16 w-16"
-        />
-
+      <div className="min-h-screen flex items-center justify-center p-4">
         <Card className="w-full max-w-md shadow-xl">
           <CardHeader className="space-y-4 text-center">
             <div className="flex justify-center">
