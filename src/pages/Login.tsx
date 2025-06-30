@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/componen
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { LogIn, Mail, Shield, User } from "lucide-react";
+import { LogIn, Shield, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { useUser } from "@/context/UserContext";
@@ -24,14 +24,14 @@ const Login = () => {
 
     try {
       const success = await login(email, password);
-      
+
       if (success) {
         toast({
           title: "Inicio de sesión exitoso",
           description: "Bienvenido al sistema",
         });
-        
-        // Redirect based on role
+
+        // Redireccionar según el rol
         if (email === "admin@ejemplo.com") {
           navigate("/admin");
         } else {
@@ -67,13 +67,21 @@ const Login = () => {
 
   return (
     <Layout hideHeader className="bg-gradient-to-r from-green-100 to-green-50">
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="min-h-screen flex items-center justify-center p-4 relative">
+        
+        {/* ===== LOGO AÑADIDO AQUÍ ===== */}
+        <img
+          src="/lovable-uploads/black_circle_360x360.png"
+          alt="Logo Black"
+          className="absolute top-4 right-4 h-16 w-16"
+        />
+
         <Card className="w-full max-w-md shadow-xl">
           <CardHeader className="space-y-4 text-center">
             <div className="flex justify-center">
-              <img 
-                src="/lovable-uploads/1b34c799-c8d6-481c-a574-7fcafc61c176.png" 
-                alt="Modular Agrosolutions" 
+              <img
+                src="/lovable-uploads/1b34c799-c8d6-481c-a574-7fcafc61c176.png"
+                alt="Modular Agrosolutions"
                 className="h-20 w-20"
               />
             </div>
@@ -84,9 +92,8 @@ const Login = () => {
               Seleccione su tipo de usuario e ingrese sus credenciales
             </p>
           </CardHeader>
-          
+
           <CardContent className="space-y-6">
-            {/* Demo User Selection */}
             <div className="space-y-3">
               <Label className="text-sm font-medium">Acceso Rápido (Demo)</Label>
               <div className="grid grid-cols-2 gap-3">
@@ -103,7 +110,7 @@ const Login = () => {
                     Gestión Completa
                   </Badge>
                 </Button>
-                
+
                 <Button
                   type="button"
                   variant="outline"
@@ -132,10 +139,10 @@ const Login = () => {
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Correo electrónico</Label>
-                <Input 
-                  id="email" 
-                  type="email" 
-                  placeholder="correo@ejemplo.com" 
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="correo@ejemplo.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -144,18 +151,18 @@ const Login = () => {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Contraseña</Label>
-                <Input 
-                  id="password" 
+                <Input
+                  id="password"
                   type="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)} 
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                   disabled={isLoading}
                 />
               </div>
-              <Button 
-                type="submit" 
-                className="w-full" 
+              <Button
+                type="submit"
+                className="w-full"
                 disabled={isLoading}
               >
                 {isLoading ? "Iniciando sesión..." : "Iniciar sesión"}
@@ -163,7 +170,7 @@ const Login = () => {
               </Button>
             </form>
           </CardContent>
-          
+
           <CardFooter className="text-sm text-center text-gray-500 space-y-2">
             <div className="w-full space-y-1">
               <p className="font-medium">Credenciales Demo:</p>
